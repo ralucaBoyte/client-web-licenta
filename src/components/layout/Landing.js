@@ -12,9 +12,9 @@ const Landing = ({ isAuthenticated }) => {
     <section className="landing">
       <div className="dark-overlay">
         <div className="landing-inner">
-          <h1 className="x-large">KAMARADS SOFT</h1>
+          <h1 className="x-large">AMS</h1>
           <p className="lead">
-            This is our awesome App If you want to see more please login
+            Welcome to our app!
           </p>
           <div className="buttons">
             <Link to="/login" className="btn btn-light">

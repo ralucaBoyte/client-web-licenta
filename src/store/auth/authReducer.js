@@ -17,18 +17,12 @@ export default function(state = initialState, action) {
   const { type, payload } = action;
 
   switch (type) {
-    case USER_LOADED:
-      return {
-        ...state,
-        isAuthenticated: !!localStorage.getItem("access_token"),
-        loading: false
-      };
+
     case LOGIN_SUCCESS:
-      localStorage.setItem("access_token", payload.access_token);
-      localStorage.setItem("refresh_token", payload.refresh_token);
+      localStorage.setItem("access_token", payload[0].access_token);
+      localStorage.setItem("refresh_token", payload[0].refresh_token);
       return {
         ...state,
-        ...payload,
         isAuthenticated: true,
         loading: false
       };
@@ -40,6 +34,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         access_token: null,
+        refresh_token: null,
         isAuthenticated: false,
         loading: false
       };

@@ -10,6 +10,8 @@ export const getCustomers = () => async dispatch => {
     const config = {
       headers: { Authorization: `Bearer ${localStorage.access_token}` }
     };
+
+    console.log(config);
     const res = await axios.get("customers/services/profiles", config);
 
     dispatch({
