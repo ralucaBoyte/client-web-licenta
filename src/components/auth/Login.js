@@ -21,7 +21,7 @@ const Login = ({ login, isAuthenticated, role }) => {
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/dashboard" />;
+    return <Redirect to="/my-profile" />;
   }
 
   return (

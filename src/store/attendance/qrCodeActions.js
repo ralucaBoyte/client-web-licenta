@@ -8,16 +8,22 @@ export const ERROR = "ERROR";
 // Show qr code
 export const getQRCode = () => async dispatch => {
     const config = {
-        headers: { Authorization: `Bearer ${localStorage.access_token}` }
+        headers: {
+            Authorization: `Bearer ${localStorage.access_token}`,
+            'Content-Type': 'application/json'
+        }
     };
 
-    const body = qs.stringify({
-        barcode: "cevaaaa"
-    });
+    const body = {
+        course_id : 1,
+        activity_id : 1,
+        professor_id : 4,
+        created_at : "2019-01-01T00:00:00"
+    };
 
     try {
-        const res = await axios.post("attendance/qrcode", body, config);
-        console.log(res);
+        const res = await axios.post("attendance/info", body, config);
+        console.log(res.data);
         dispatch({
             type: SHOW_QR_ATTENDANCE,
             payload: res.data

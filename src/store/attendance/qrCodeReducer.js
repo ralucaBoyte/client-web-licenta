@@ -4,9 +4,8 @@ import {
 } from "./qrCodeActions";
 
 const initialState = {
-    qrCode: null,
-    isAuthenticated: null,
-    loading: true
+    visible: false,
+    value: null
 };
 
 export default function(state = initialState, action) {
@@ -15,8 +14,8 @@ export default function(state = initialState, action) {
     switch (type) {
         case SHOW_QR_ATTENDANCE:
             return {
-                ...state,
-                qrCode: payload
+                visible: true,
+                value: payload.barcode
             };
 
         case SHOW_QR_ATTENDANCE_FAILED:
