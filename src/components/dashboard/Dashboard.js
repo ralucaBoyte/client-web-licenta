@@ -1,9 +1,9 @@
-import React, { Component, Fragment, useEffect } from "react";
+import React, {  Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getQRCode } from "../../store/attendance/qrCodeActions";
 import QRCode_Generator from "./QRCode_Generator";
-const Dashboard = ({auth,getQRCode}) => {
+const Dashboard = ({getQRCode}) => {
 
   return (
     <Fragment>
@@ -18,7 +18,7 @@ const Dashboard = ({auth,getQRCode}) => {
 
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
-    getQRCode: PropTypes.func.isRequired
+  getQRCode: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

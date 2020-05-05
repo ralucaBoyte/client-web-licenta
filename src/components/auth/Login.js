@@ -13,7 +13,7 @@ const Login = ({ login, isAuthenticated, role }) => {
   const { username, password } = formData;
 
   const onChange = e =>
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+      setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async e => {
     e.preventDefault();
@@ -25,35 +25,34 @@ const Login = ({ login, isAuthenticated, role }) => {
   }
 
   return (
-    <Fragment>
-      <h1 className="large text-primary">Sign In</h1>
-      <p className="lead">
-        <i className="fas fa-user" /> Sign Into Your Account
-      </p>
-      <form className="form" onSubmit={e => onSubmit(e)}>
-        <div className="form-group">
-          <input
-            type="text"
-            placeholder="Username"
-            name="username"
-            value={username}
-            onChange={e => onChange(e)}
-            required
-          />
-        </div>
-        <div className="form-group">
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            value={password}
-            onChange={e => onChange(e)}
-            required
-          />
-        </div>
-        <input type="submit" className="btn btn-primary" value="Login" />
-      </form>
-    </Fragment>
+      <Fragment>
+        <p className="lead">
+          <i className="fas fa-user" /> Sign Into Your Account
+        </p>
+        <form className="form" onSubmit={e => onSubmit(e)}>
+          <div className="form-group">
+            <input
+                type="text"
+                placeholder="Username"
+                name="username"
+                value={username}
+                onChange={e => onChange(e)}
+                required
+            />
+          </div>
+          <div className="form-group">
+            <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                value={password}
+                onChange={e => onChange(e)}
+                required
+            />
+          </div>
+          <input type="submit" className="btn btn-primary" value="Login" />
+        </form>
+      </Fragment>
   );
 };
 

@@ -6,7 +6,11 @@ import NotFound from "../layout/NotFound";
 import MyProfile from "../profile/MyProfile";
 import Dashboard from "../dashboard/Dashboard";
 import PrivateRoute from "../routing/PrivateRoute";
-import CustomersTable from "../elements/CustomersTable";
+import SubjectsTable from "../elements/SubjectsTable";
+import AttendanceGenerator from "../elements/AttendanceGenerator";
+//import ChatScreen from "../Chat/ChatScreen";
+import DashboardComponent from "../../views/MainChat/dashboard";
+
 
 const Routes = () => {
   return (
@@ -14,9 +18,10 @@ const Routes = () => {
       <Alert />
       <Switch>
         <Route exact path="/login" component={Login} />
-        <Route exact path="/my-profile" component={MyProfile} />
+        <PrivateRoute exact path="/my-profile" component={MyProfile} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
-        <PrivateRoute exact path="/customers" component={CustomersTable} />
+        <PrivateRoute exact path="/attendance" component={AttendanceGenerator} />
+        <PrivateRoute exact path="/messages" component={DashboardComponent} />
         <Route component={NotFound} />
       </Switch>
     </section>

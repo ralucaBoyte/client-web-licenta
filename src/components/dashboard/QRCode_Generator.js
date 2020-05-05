@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
 import QRCode from 'qrcode.react';
-import React, {Component, Fragment, useState} from 'react';
+import React, { Fragment} from 'react';
 import {getQRCode} from "../../store/attendance/qrCodeActions";
 
 const QRCode_Generator = ({attendance, getQRCode}) => {
