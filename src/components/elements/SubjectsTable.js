@@ -1,7 +1,7 @@
 import React, {useState} from "react";
 import DataTable from "react-data-table-component";
 import { connect } from "react-redux";
-import {getSubjects} from "../../store/subjects/subjectActions";
+import {getSubjects,setCurrentSubject} from "../../store/subjects/subjectActions";
 import PropTypes from "prop-types";
 import { withStyles, makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
@@ -11,52 +11,8 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
-const columns = [
-    {
-        name: 'Id',
-        selector: 'subject_id',
-        sortable: true,
-    },
-    {
-        name: 'Credits',
-        selector: 'credits',
-        sortable: true,
-    },
-    {
-        name: 'Name',
-        selector: 'name',
-        sortable: true,
-    },
-    {
-        name: 'Year',
-        selector: 'year',
-        sortable: true,
-    },
-    {
-        selector: "options",
-        sortable: false,
-        center: true
-    }
-];
-
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
-        },
-    },
-}))(TableRow);
+import {StyledTableCell, StyledTableRow} from "../../utils/styles/StyleTableElements";
+import Tables from '../../utils/styles/Tables.css'
 
 const useStyles = makeStyles({
     table: {
@@ -69,27 +25,33 @@ const useStyles = makeStyles({
     }
 });
 
-const SubjectsTable = ({getSubjects, subjects, loading}) => {
+const SubjectsTable = ({setCurrentSubject,getSubjects, subjects, loading, students}) => {
 
-    const [selected, setSelected] = useState(null);
+    // const [selected, setSelected] = useState(null);
+    let selected = false;
 
     if (loading) {
         getSubjects();
     }
 
-    const selectTableRow = event => {
-      console.log(event.target.getAttribute("data-item"));
-    };
+    function handleSelectTableRow (subjectId){
+      console.log(subjectId);
+      setCurrentSubject(subjectId);
+      selected = true;
+      students = true;
+    }
 
     const classes = useStyles();
 
     let rows;
     rows = subjects.map(subject => {
        return {
-           subject_id: subject.subject_id,
+           id: subject.id,
            name: subject.name,
            credits: subject.credits,
+           specId: subject.specId,
            year: subject.year,
+           selected: false
            }
     });
 
@@ -103,22 +65,25 @@ const SubjectsTable = ({getSubjects, subjects, loading}) => {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell align="left">Subjects&nbsp;</StyledTableCell>
-                        <StyledTableCell align="right">Credits&nbsp;</StyledTableCell>
-                        <StyledTableCell align="right">Year&nbsp;</StyledTableCell>
+                        <StyledTableCell align="center">Credits&nbsp;</StyledTableCell>
+                        <StyledTableCell align="center">Specialization Id&nbsp;</StyledTableCell>
+                        <StyledTableCell align="center">Year&nbsp;</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
                         <StyledTableRow
-                            key={row.subject_id}
-                            onClick={selectTableRow}
-                            value={row.subject_id}
+                            key={row.id}
+                            className = {row.selected ? 'background-hover' : null }
+                            onClick={() => {handleSelectTableRow(row.id); row.selected = true;}}
+                            value={row.id}
+                            // style = {{hover: {background: '#9EC8BC'}}} //TODO: change color on Click
+                            hover = {true}
                         >
-                            <StyledTableCell component="th" scope="row">
-                                {row.name}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">{row.credits}</StyledTableCell>
-                            <StyledTableCell align="right">{row.year}</StyledTableCell>
+                            <StyledTableCell key={row.name} component="th" scope="row">{row.name}</StyledTableCell>
+                            <StyledTableCell key={row.credits} align="center">{row.credits}</StyledTableCell>
+                            <StyledTableCell key={row.specId} align="center">{row.specId}</StyledTableCell>
+                            <StyledTableCell key={row.year} align="center">{row.year}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>
@@ -128,16 +93,19 @@ const SubjectsTable = ({getSubjects, subjects, loading}) => {
 };
 SubjectsTable.propTypes = {
     getSubjects: PropTypes.func.isRequired,
+    setCurrentSubject: PropTypes.func.isRequired,
     loading: PropTypes.bool,
-    subjects: PropTypes.array
+    subjects: PropTypes.array,
+    students: PropTypes.element,
 };
 
 const mapStateToProps = state => ({
     subjects: state.subjects.data,
-    loading: state.subjects.loading
+    loading: state.subjects.loading,
+    students: state.students.visible
 });
 
 export default connect(
     mapStateToProps,
-    {getSubjects}
+    {getSubjects,setCurrentSubject}
 )(SubjectsTable);

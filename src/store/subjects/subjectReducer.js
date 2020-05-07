@@ -2,7 +2,8 @@ import {
   AUTH_ERROR,
   GET_SUBJECTS_BY_TEACHER,
   GET_SUBJECTS_BY_TEACHER_ERROR,
-  GET_REGUEST_FAIL
+  GET_REQUEST_FAIL,
+  SET_CURRENT_SUBJECT
 } from "./subjectActions";
 
 const initialState = {
@@ -28,8 +29,13 @@ export default function(state = initialState, action) {
         loading: false,
         data: null
       };
+    case SET_CURRENT_SUBJECT:
+      return{
+        ...state,
+        currentSubject: payload
+      };
     case AUTH_ERROR:
-    case GET_REGUEST_FAIL:
+    case GET_REQUEST_FAIL:
     default:
       return state;
   }

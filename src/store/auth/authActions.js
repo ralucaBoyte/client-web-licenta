@@ -42,6 +42,9 @@ export const login = (username, password) => async dispatch => {
     if (status === 400) {
       dispatch(setAlert("Please enter an username and a password", "danger"));
     }
+    if(status === 500){
+      dispatch(setAlert("Please wait! It seem to be a problem on our server :(","danger"));
+    }
     dispatch({
       type: LOGIN_FAIL,
       payload: err

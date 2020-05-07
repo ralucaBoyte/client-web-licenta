@@ -5,32 +5,32 @@ import {getQRCode} from "../../store/attendance/qrCodeActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import ActivityTypes from "./ActivityTypes";
+import AttendaceManually from "./AttendanceManually";
 
-const activityTypes = [
-    { key: 1, text: 'Choice 1', value: 1 },
-    { key: 2, text: 'Choice 2', value: 2 },
-    { key: 3, text: 'Choice 3', value: 3 },
-];
-
-const AttendanceGenerator = ({getQRCode}) => {
+const AttendanceGenerator = ({subjects,attendance,getQRCode}) => {
 
      return (
         <Fragment>
                 <SubjectsTable/>
                 <ActivityTypes/>
                 <QRCode_Generator/>
-            <button className='btn btn-primary' onClick={() => getQRCode()}>
+            <button className='btn btn-primary' onClick={() => getQRCode(attendance.activity_id,subjects.currentSubject)}>
                 <i className='fas fa-user-minus' /> Generate qr code
             </button>
+                <AttendaceManually/>
         </Fragment>
     );
 };
 AttendanceGenerator.propTypes = {
-   getQRCode: PropTypes.func.isRequired
+    attendance: PropTypes.element.isRequired,
+    subjects: PropTypes.element.isRequired,
+    getQRCode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
+    attendance: state.attendance,
+    subjects: state.subjects
 });
 
 export default connect(mapStateToProps, {getQRCode})(AttendanceGenerator);

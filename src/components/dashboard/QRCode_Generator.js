@@ -6,7 +6,9 @@ import {getQRCode} from "../../store/attendance/qrCodeActions";
 
 const QRCode_Generator = ({attendance, getQRCode}) => {
     const visibleQR = (
-        <QRCode value={attendance.value}/>
+        <Fragment>
+            <QRCode value={attendance.value}/>
+        </Fragment>
     );
 
     const notVisibleQR = (
@@ -16,10 +18,11 @@ const QRCode_Generator = ({attendance, getQRCode}) => {
     );
 
     return (
-        <Fragment>
-            {attendance.visible ? visibleQR : notVisibleQR}
-        </Fragment>
-
+        <div>
+            <Fragment>
+                {attendance.visible ? visibleQR : notVisibleQR}
+            </Fragment>
+        </div>
     );
 };
 

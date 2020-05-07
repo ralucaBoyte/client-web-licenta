@@ -8,12 +8,13 @@ import Button from '@material-ui/core/Button';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {setCurrentActivity} from "../../store/attendance/qrCodeActions";
+import {getActivityTypesByTeacher} from "../../store/subjects/subjectActions";
 
-const options = [
-    { key: 1, text: 'Curs' },
-    { key: 2, text: 'Laborator' },
-    { key: 3, text: 'Seminar' },
-];
+// const options = [
+//     { key: 1, text: 'Curs' },
+//     { key: 2, text: 'Laborator' },
+//     { key: 3, text: 'Seminar' },
+// ];
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -26,10 +27,15 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ActivityTypes = ({setCurrentActivity}) => {
+const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,loading}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState("");
+    let currentActivity = "";
+
+    if(loading){
+        getActivityTypesByTeacher();
+    }
 
     const handleChange = (event) => {
         setTypeId(event.target.value);
@@ -39,6 +45,18 @@ const ActivityTypes = ({setCurrentActivity}) => {
     const handleClickOpen = () => {
         setOpen(true);
     };
+
+    let rows;
+    rows = activities.map(activity => {
+        return {
+            typeId: activity.typeId,
+            name: activity.name
+        }
+    });
+
+    function handleSelectedActivity() {
+
+    }
 
     return (
         <div>
@@ -50,11 +68,9 @@ const ActivityTypes = ({setCurrentActivity}) => {
                     value={typeId}
                     onChange={handleChange}
                 >
-
-                    {options.map(option => (
-                        <MenuItem value={option.key} key={option.key}>{option.text}</MenuItem>
+                    {rows.map(row => (
+                        <MenuItem value={row.typeId} key={row.typeId} onClick={handleSelectedActivity}>{row.name}</MenuItem>
                     ))}
-
                 </Select>
             </FormControl>
         </div>
@@ -63,6 +79,14 @@ const ActivityTypes = ({setCurrentActivity}) => {
 
 ActivityTypes.propTypes = {
     setCurrentActivity: PropTypes.func.isRequired,
+    getActivityTypesByTeacher: PropTypes.func.isRequired,
+    activities: PropTypes.array,
+    loading: PropTypes.bool
 };
 
-export default connect(null, {setCurrentActivity})(ActivityTypes);
+const mapStateToProps = state => ({
+    activities: state.activities.data,
+    loading: state.activities.loading
+});
+
+export default connect(mapStateToProps, {setCurrentActivity,getActivityTypesByTeacher})(ActivityTypes);

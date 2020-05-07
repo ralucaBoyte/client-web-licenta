@@ -18,7 +18,7 @@ class MessagesList extends Component {
         fontWeight: 'bold',
       },
       message: { fontSize: 15 },
-    }
+    };
     return (
       <div
         style={{
