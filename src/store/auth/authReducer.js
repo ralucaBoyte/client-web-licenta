@@ -3,14 +3,16 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  SAVE_USER
 } from "./authActions";
 
 const initialState = {
   access_token: localStorage.getItem("access_token"),
   refresh_token: localStorage.getItem("refresh_token"),
   isAuthenticated: localStorage.getItem("isAuthenticated"),
-  loading: true
+  loading: true,
+  username: localStorage.getItem("username")
 };
 
 export default function(state = initialState, action) {
@@ -24,6 +26,8 @@ export default function(state = initialState, action) {
       localStorage.setItem("isAuthenticated", true);
       return {
         ...state,
+        access_token: payload.access_token,
+        refresh_token: payload.refresh_token,
         isAuthenticated: true,
         loading: false
       };
@@ -33,13 +37,21 @@ export default function(state = initialState, action) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("username");
       return {
         ...state,
         access_token: null,
         refresh_token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        username: null
       };
+    case SAVE_USER:
+        localStorage.setItem("username", payload);
+        return{
+          ...state,
+          username: payload
+        };
     default:
       return state;
   }

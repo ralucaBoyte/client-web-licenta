@@ -7,6 +7,7 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const ACCOUNT_DELETED = "ACCOUNT_DELETED";
+export const SAVE_USER = "SAVE_USER";
 
 /* Load User
 export const loadUser = () => async dispatch => {
@@ -37,10 +38,17 @@ export const login = (username, password) => async dispatch => {
       payload: res.data
     });
 
+    dispatch({
+      type:SAVE_USER,
+      payload: username
+    })
+
+
   } catch (err) {
-    const status = err.response;
-    if (status === 400) {
-      dispatch(setAlert("Please enter an username and a password", "danger"));
+    console.log(err.response);
+    const status = err.response.status;
+    if (status === 401) {
+      dispatch(setAlert("Please enter a valid username and password", "danger"));
     }
     dispatch({
       type: LOGIN_FAIL,

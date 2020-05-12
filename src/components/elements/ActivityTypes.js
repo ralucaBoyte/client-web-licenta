@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {setCurrentActivity} from "../../store/attendance/qrCodeActions";
+import {getActivities} from "../../store/subjects/subjectActions";
 
 const options = [
     { key: 1, text: 'Curs' },
@@ -26,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ActivityTypes = ({setCurrentActivity}) => {
+const ActivityTypes = ({loadingActivities, setCurrentActivity, getActivities, activities}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState("");
@@ -36,12 +37,17 @@ const ActivityTypes = ({setCurrentActivity}) => {
         setCurrentActivity(event.target.value);
     };
 
+
+    if(loadingActivities){
+        getActivities();
+    }
+
     const handleClickOpen = () => {
         setOpen(true);
     };
 
     return (
-        <div>
+        <div style={activity_style}>
             <FormControl className={classes.formControl}>
                 <InputLabel id="demo-controlled-open-select-label">Activity type</InputLabel>
                 <Select
@@ -51,18 +57,26 @@ const ActivityTypes = ({setCurrentActivity}) => {
                     onChange={handleChange}
                 >
 
-                    {options.map(option => (
-                        <MenuItem value={option.key} key={option.key}>{option.text}</MenuItem>
+                    {activities.map(activity => (
+                        <MenuItem value={activity.id} key={activity.id}>{activity.type}</MenuItem>
                     ))}
-
                 </Select>
             </FormControl>
         </div>
     );
 };
 
-ActivityTypes.propTypes = {
-    setCurrentActivity: PropTypes.func.isRequired,
+const activity_style = {
+    display: 'flex'
 };
 
-export default connect(null, {setCurrentActivity})(ActivityTypes);
+ActivityTypes.propTypes = {
+    setCurrentActivity: PropTypes.func.isRequired,
+    getActivities: PropTypes.func.isRequired,
+};
+
+const mapStateToProps = state => ({
+    activities: state.subjects.activities,
+    loadingActivities: state.subjects.loadingActivities
+});
+export default connect(mapStateToProps, {setCurrentActivity, getActivities})(ActivityTypes);

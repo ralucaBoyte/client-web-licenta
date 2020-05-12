@@ -17,41 +17,53 @@ class ChatListComponent extends React.Component {
   render() {
 
     const { classes } = this.props;
-
+    let username = localStorage.getItem("username");
+    console.log("+++++++++chat list component ++++++++++++");
+    console.log(this.props);
+    //console.log(this.props.chats.);
     if(this.props.chats.length > 0) {
       return(
         <div className={classes.root}>
-            <Button variant="contained" 
-              fullWidth 
-              color='primary' 
-              onClick={this.newChat} 
+            <Button variant="contained"
+              fullWidth
+              color='primary'
+              onClick={this.newChat}
               className={classes.newChatBtn}>
                 New Message
             </Button>
             <List>
               {
                 this.props.chats.map((_chat, _index) => {
+
                   return (
                     <div key={_index}>
-                      <ListItem onClick={() => this.selectChat(_index)} 
-                        className={classes.listItem} 
-                        selected={this.props.selectedChatIndex === _index} 
+                      <ListItem onClick={() => this.selectChat(_index)}
+                        className={classes.listItem}
+                        selected={this.props.selectedChatIndex === _index}
                         alignItems="flex-start">
-                        <ListItemAvatar>
-                          <Avatar alt="Remy Sharp">{_chat.users.filter(_user => _user !== this.props.userEmail)[0].split('')[0]}</Avatar>
-                        </ListItemAvatar>
-                        <ListItemText 
-                          primary={_chat.users.filter(_user => _user !== this.props.userEmail)[0]}
+                          <ListItemAvatar>
+
+                              <Avatar alt="Remy Sharp">{
+                                  (_chat[0].sender !== username ) ? _chat[0].sender.split('')[0] :  _chat[0].receiver.split('')[0]
+                              }</Avatar>
+                          </ListItemAvatar>
+
+                          <ListItemText
+                           primary={
+                               (_chat[0].sender !== username ) ? _chat[0].sender :  _chat[0].receiver
+                           }
                           secondary={
                             <React.Fragment>
                               <Typography component='span'
                                 color='textPrimary'>
-                                  {_chat.messages[_chat.messages.length - 1].message.substring(0, 30) + ' ...'}
+                                  {//_chat.messages[_chat.messages.length - 1].message.substring(0, 30) + ' ...'}
+                                        _chat[0].content.substring(0, 30)
+                                  }
                               </Typography>
                             </React.Fragment>
                           }/>
                           {
-                            _chat.receiverHasRead === false && !this.userIsSender(_chat) ? 
+                            _chat.receiverHasRead === false && !this.userIsSender(_chat) ?
                             <ListItemIcon><NotificationImportant className={classes.unreadMessage}></NotificationImportant></ListItemIcon> :
                             null
                           }
@@ -67,10 +79,10 @@ class ChatListComponent extends React.Component {
     } else {
       return(
         <div className={classes.root}>
-          <Button variant="contained" 
-            fullWidth 
-            color='primary' 
-            onClick={this.newChat} 
+          <Button variant="contained"
+            fullWidth
+            color='primary'
+            onClick={this.newChat}
             className={classes.newChatBtn}>
               New Message
           </Button>

@@ -8,7 +8,7 @@ class NewChatComponent extends React.Component {
   constructor() {
     super();
     this.state = {
-      username: null,
+      sender: null,
       message: null
     };
   }
@@ -62,6 +62,8 @@ class NewChatComponent extends React.Component {
   componentWillMount() {
     //if(!firebase.auth().currentUser)
     //this.props.history.push('/login');
+    console.log("NEW CHAT COMPOENT");
+    console.log(this.state.sender);
   }
 
   userTyping = (inputType, e) => {
@@ -81,11 +83,12 @@ class NewChatComponent extends React.Component {
 
   submitNewChat = async (e) => {
     e.preventDefault();
-    const userExists = await this.userExists();
-    if (userExists) {
-      const chatExists = await this.chatExists();
-      chatExists ? this.goToChat() : this.createChat();
-    }
+    //const userExists = await this.userExists();
+    //if (userExists) {
+     // const chatExists = await this.chatExists();
+      //chatExists ? this.goToChat() : this.createChat();
+    //}
+    this.createChat();
   }
 
   buildDocKey = () => {
@@ -93,7 +96,7 @@ class NewChatComponent extends React.Component {
 
   createChat = () => {
     this.props.newChatSubmitFn({
-      sendTo: this.state.username,
+      sender: this.state.sender,
       message: this.state.message
     });
   }

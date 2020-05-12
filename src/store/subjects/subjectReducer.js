@@ -2,14 +2,16 @@ import {
   AUTH_ERROR,
   GET_SUBJECTS_BY_TEACHER,
   GET_SUBJECTS_BY_TEACHER_ERROR,
-  GET_REGUEST_FAIL
+  GET_REGUEST_FAIL, GET_ACTIVITIES, GET_ACTIVITIES_FAIL
 } from "./subjectActions";
 
 const initialState = {
   currentSubject: null,
   loading: true,
+  loadingActivities: true,
   data: [],
-  error: {}
+  error: {},
+  activities: []
 };
 
 export default function(state = initialState, action) {
@@ -27,6 +29,18 @@ export default function(state = initialState, action) {
         ...state,
         loading: false,
         data: null
+      };
+    case GET_ACTIVITIES:
+      return {
+        ...state,
+        loadingActivities: false,
+        activities: payload
+      };
+    case GET_ACTIVITIES_FAIL:
+      return {
+        ...state,
+        loadingActivities: false,
+        activities: null
       };
     case AUTH_ERROR:
     case GET_REGUEST_FAIL:

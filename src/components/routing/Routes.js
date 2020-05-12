@@ -9,7 +9,7 @@ import PrivateRoute from "../routing/PrivateRoute";
 import SubjectsTable from "../elements/SubjectsTable";
 import AttendanceGenerator from "../elements/AttendanceGenerator";
 //import ChatScreen from "../Chat/ChatScreen";
-import DashboardComponent from "../../views/MainChat/dashboard";
+import DashboardComponent from "../chat/MainChat/dashboard";
 
 
 const Routes = () => {
@@ -21,6 +21,7 @@ const Routes = () => {
         <PrivateRoute exact path="/my-profile" component={MyProfile} />
         <PrivateRoute exact path="/dashboard" component={Dashboard} />
         <PrivateRoute exact path="/attendance" component={AttendanceGenerator} />
+
         <PrivateRoute exact path="/messages" component={DashboardComponent} />
         <Route component={NotFound} />
       </Switch>

@@ -9,7 +9,7 @@ const Dashboard = ({getQRCode}) => {
     <Fragment>
       <h1 className="large text-primary">Dashboard</h1>
         <QRCode_Generator/>
-        <button className='btn btn-primary' onClick={() => getQRCode()}>
+        <button className='btn btn-primary' onClick={() => getQRCode(this.attendance.activity_id)}>
             <i className='fas fa-user-minus' /> Generate qr code
         </button>
     </Fragment>
@@ -18,11 +18,13 @@ const Dashboard = ({getQRCode}) => {
 
 Dashboard.propTypes = {
   auth: PropTypes.object.isRequired,
+  attendance: PropTypes.object.isRequired,
   getQRCode: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  attendance: state.attendance
 });
 
 export default connect(mapStateToProps, {getQRCode})(Dashboard);

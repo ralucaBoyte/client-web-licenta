@@ -59,8 +59,12 @@ const StyledTableRow = withStyles((theme) => ({
 }))(TableRow);
 
 const useStyles = makeStyles({
+    container: {
+        width: '60%'
+    },
     table: {
-        minWidth: 500,
+        //minWidth: 500,
+        //width: '60%'
     },
     row: {
         "&:hover": {
@@ -86,7 +90,7 @@ const SubjectsTable = ({getSubjects, subjects, loading}) => {
     let rows;
     rows = subjects.map(subject => {
        return {
-           subject_id: subject.subject_id,
+           subject_id: subject.id,
            name: subject.name,
            credits: subject.credits,
            year: subject.year,
@@ -95,7 +99,7 @@ const SubjectsTable = ({getSubjects, subjects, loading}) => {
 
 
     return (
-        <TableContainer component={Paper}>
+        <TableContainer style={{width: '60%'}} component={Paper}>
             <Table
                 className={classes.table}
                 aria-label="customized table"

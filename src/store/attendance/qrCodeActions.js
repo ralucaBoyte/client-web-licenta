@@ -6,7 +6,8 @@ export const SHOW_QR_ATTENDANCE_FAILED = "SHOW_QR_ATTENDANCE_FAILED";
 export const SET_CURRENT_ACTIVITY_TYPE = "SET_CURRENT_ACTIVITY_TYPE";
 
 // Show qr code
-export const getQRCode = () => async dispatch => {
+export const getQRCode = (activity_id) => async dispatch => {
+
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.access_token}`,
@@ -14,9 +15,10 @@ export const getQRCode = () => async dispatch => {
         }
     };
 
+
     const body = {
         "courseId": 2,
-        "activityId": 2,
+        "activityId": activity_id,
         "remainingTime": 25
     };
 
