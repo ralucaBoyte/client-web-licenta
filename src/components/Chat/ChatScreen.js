@@ -7,13 +7,13 @@ import WhosOnlineList from './WhosOnlineList'
 
 class ChatScreen extends Component {
   constructor(props) {
-    super(props)
+    super(props);
     this.state = {
       currentUser: {},
       currentRoom: {},
       messages: [],
       usersWhoAreTyping: [],
-    }
+    };
     this.sendMessage = this.sendMessage.bind(this)
     this.sendTypingEvent = this.sendTypingEvent.bind(this)
   }

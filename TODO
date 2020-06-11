@@ -1,0 +1,5 @@
+1. Sa afisez un mesaj de eroare in cazul in care primesc erori de la server dupa un req
+2. Sa nu permit sa genereze cod QR daca nu a adaugat actiitate sau curs
+3. Sa schimb un pic culorile din componenta Attendance
+4. Sa restrictionez functionalitatile in functie de rolul contului
+5. Sa redirectioneze la login cand expira token-ul

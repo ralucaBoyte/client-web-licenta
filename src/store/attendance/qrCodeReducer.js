@@ -11,7 +11,8 @@ const initialState = {
     value: null,
     activity_id: null,
     subject_id: null,
-    attendance_id: null
+    attendance_id: null,
+    error: ""
 };
 
 export default function(state = initialState, action) {
@@ -22,13 +23,14 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 visible: true,
-                value: payload.barcode,
-                attendance_id: payload.barcode[0]
+                value: payload,
+                attendance_id: payload
             };
 
         case SHOW_QR_ATTENDANCE_FAILED:
             return {
-                ...state
+                ...state,
+                error: payload
             };
         case ADD_ATTENDANCE:
             return {
@@ -36,7 +38,8 @@ export default function(state = initialState, action) {
             };
         case ADD_ATTENDANCE_ERROR:
             return {
-                ...state
+                ...state,
+                error: payload
             };
         case SET_CURRENT_ACTIVITY_TYPE:
             return{

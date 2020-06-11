@@ -12,7 +12,8 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {StyledTableCell, StyledTableRow} from "../../utils/styles/StyleTableElements";
-import Tables from '../../utils/styles/Tables.css'
+import '../../utils/styles/Tables.css';
+import {getStudentsBySubjects, setStudents} from "../../store/student/studentActions";
 
 const useStyles = makeStyles({
     table: {
@@ -25,7 +26,7 @@ const useStyles = makeStyles({
     }
 });
 
-const SubjectsTable = ({setCurrentSubject,getSubjects, subjects, loading, students}) => {
+const SubjectsTable = ({getStudentsBySubjects,setCurrentSubject,getSubjects, subjects, loading, students}) => {
 
     // const [selected, setSelected] = useState(null);
     let selected = false;
@@ -37,6 +38,8 @@ const SubjectsTable = ({setCurrentSubject,getSubjects, subjects, loading, studen
     function handleSelectTableRow (subjectId){
       console.log(subjectId);
       setCurrentSubject(subjectId);
+      getStudentsBySubjects([subjectId]);
+      // setStudents
       selected = true;
       students = true;
     }
@@ -55,12 +58,13 @@ const SubjectsTable = ({setCurrentSubject,getSubjects, subjects, loading, studen
            }
     });
 
-
+//component={Paper} -- for style
     return (
-        <TableContainer component={Paper}>
+        <TableContainer component={Paper} id='subjectTableId'>
             <Table
                 className={classes.table}
                 aria-label="customized table"
+                id='subjectTableId'
             >
                 <TableHead>
                     <TableRow>
@@ -94,6 +98,8 @@ const SubjectsTable = ({setCurrentSubject,getSubjects, subjects, loading, studen
 SubjectsTable.propTypes = {
     getSubjects: PropTypes.func.isRequired,
     setCurrentSubject: PropTypes.func.isRequired,
+    // setStudents: PropTypes.func.isRequired,
+    getStudentsBySubjects: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     subjects: PropTypes.array,
     students: PropTypes.element,
@@ -107,5 +113,5 @@ const mapStateToProps = state => ({
 
 export default connect(
     mapStateToProps,
-    {getSubjects,setCurrentSubject}
+    {getSubjects,setCurrentSubject,getStudentsBySubjects}
 )(SubjectsTable);

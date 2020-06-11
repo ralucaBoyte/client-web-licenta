@@ -3,7 +3,7 @@ import {
   GET_SUBJECTS_BY_TEACHER,
   GET_SUBJECTS_BY_TEACHER_ERROR,
   GET_REQUEST_FAIL,
-  SET_CURRENT_SUBJECT
+  SET_CURRENT_SUBJECT, GET_SUBJECTS_BY_STUDENT, GET_SUBJECTS_BY_STUDENT_ERROR
 } from "./subjectActions";
 
 const initialState = {
@@ -24,6 +24,18 @@ export default function(state = initialState, action) {
         data: payload
       };
     case GET_SUBJECTS_BY_TEACHER_ERROR:
+      return {
+        ...state,
+        loading: false,
+        data: null
+      };
+    case GET_SUBJECTS_BY_STUDENT:
+      return {
+        ...state,
+        loading: false,
+        data: payload
+      };
+    case GET_SUBJECTS_BY_STUDENT_ERROR:
       return {
         ...state,
         loading: false,

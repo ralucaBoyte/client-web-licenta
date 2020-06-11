@@ -21,60 +21,36 @@ import IconPeople from '@material-ui/icons/People'
 import IconBarChart from '@material-ui/icons/BarChart'
 import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
 */
-const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
+const Navbar = ({ auth: { isAuthenticated, loading, role}, logout }) => {
 
     //const classes = useStyles();
+    const authTeacherLinks = (
+        <ul>
+            <li>
+                <Link to="/attendance">Prezențe</Link>
+            </li>
+            <li>
+                <a onClick={logout} href="/">
+                    <i className="fas fa-sign-out-alt" />{" "}
+                    <span className="hide-sm">Logout</span>
+                </a>
+            </li>
+        </ul>
+    );
 
-    const authLinks = (
-       /*<List component="nav" className={classes.appMenu} disablePadding>
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconDashboard />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconShoppingCart />
-                </ListItemIcon>
-                <ListItemText primary="Orders" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconPeople />
-                </ListItemIcon>
-                <ListItemText primary="Customers" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconBarChart />
-                </ListItemIcon>
-                <ListItemText primary="Reports" />
-            </ListItem>
-
-        </List>*/
-    <ul>
-        <li>
-            <Link to="/dashboard">Dashboard</Link>
-        </li>
-      <li>
-        <Link to="/attendance">Attendance</Link>
-      </li>
-    <li>
-        <Link to="/messages">Messages</Link>
-    </li>
-      <li>
-        <a onClick={logout} href="/">
-          <i className="fas fa-sign-out-alt" />{" "}
-          <span className="hide-sm">Logout</span>
-        </a>
-      </li>
-    </ul>
-  );
-
+    const authStudentLinks = (
+        <ul>
+            <li>
+                <Link to="/subject">Discipline</Link>
+            </li>
+            <li>
+                <a onClick={logout} href="/">
+                    <i className="fas fa-sign-out-alt" />{" "}
+                    <span className="hide-sm">Logout</span>
+                </a>
+            </li>
+        </ul>
+    );
   const guestLinks = (
     <ul>
       <li>
@@ -82,10 +58,15 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
       </li>
     </ul>
   );
+
+    const authLinks = (
+        <div>{role ==='PROFESSOR' ? authTeacherLinks : authStudentLinks}</div>
+    );
+
   return (
     <nav className="navbar bg-dark">
       <h1>
-        <Link to="/dashboard">
+        <Link to="/my-profile">
           <i className="fas fa-code" /> AMS
         </Link>
       </h1>

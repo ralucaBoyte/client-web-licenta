@@ -1,0 +1,26 @@
+.containerPrincipal {
+    margin-left: 50px;
+}
+
+/*.containerAttendance{*/
+/*    margin-left: auto;*/
+/*    margin-right: auto;*/
+/*}*/
+
+#id1 {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+#id2{
+    margin-top: 50px;
+    display: inline-flex;
+    flex-direction: row;
+}
+
+#qrGenerator{
+    margin-left: 50px;
+    display: flex;
+    flex-direction: column;
+}

@@ -1,9 +1,12 @@
 import {setAlert} from "../alert/alertActions";
 import axios from "axios";
 import {SHOW_QR_ATTENDANCE, SHOW_QR_ATTENDANCE_FAILED} from "../attendance/qrCodeActions";
+import {toast} from "react-toastify";
 
 export const GET_SUBJECTS_BY_TEACHER = "GET_SUBJECTS_BY_TEACHER";
 export const GET_SUBJECTS_BY_TEACHER_ERROR = "GET_SUBJECTS_BY_TEACHER_ERROR";
+export const GET_SUBJECTS_BY_STUDENT = "GET_SUBJECTS_BY_STUDENT";
+export const GET_SUBJECTS_BY_STUDENT_ERROR = "GET_SUBJECTS_BY_STUDENT_ERROR";
 export const SET_CURRENT_SUBJECT = "SET_CURRENT_SUBJECT";
 export const GET_ACTIVITIES_OF_TEACHER = "GET_ACTIVITIES_OF_TEACHER";
 export const GET_ACTIVITIES_OF_TEACHER_ERROR = "GET_ACTIVITIES_OF_TEACHER_ERROR";
@@ -11,6 +14,7 @@ export const GET_ACTIVITIES_OF_TEACHER_ERROR = "GET_ACTIVITIES_OF_TEACHER_ERROR"
 export const GET_REQUEST_FAIL = "GET_REQUEST_FAIL";
 export const AUTH_ERROR = "AUTH_ERROR";
 
+//by teacher
 export const getSubjects = () => async dispatch => {
 
   const config = {
@@ -33,20 +37,63 @@ export const getSubjects = () => async dispatch => {
 
     if (status === 400 || status === 401 || status === 402) { //TODO
       dispatch(setAlert("Please enter an username and a password", "danger"));
+      toast.error(err.response.data);
     }
     if (status === 404) {
         dispatch(setAlert("Cannot get subjects!", "danger"));
+      toast.error(err.response.data);
     }
     if (status === 405) {
       dispatch(setAlert("The request or response is not write in a good way!", "danger"));
+      toast.error(err.response.data);
     }
     dispatch({
       type: GET_SUBJECTS_BY_TEACHER_ERROR,
       payload: err
     });
   }
-
 };
+
+//TODO: De terminat
+export const getSubjectsForStudent = () => async dispatch => {
+
+  const config = {
+    headers: {
+      Authorization: `Bearer ${localStorage.access_token}`,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  try {
+    const res = await axios.get("subject/student", config);
+    console.log(res.data);
+    dispatch({
+      type: GET_SUBJECTS_BY_STUDENT,
+      payload: res.data.subjects
+    });
+
+  } catch (err) {
+    const status = err.response.status;
+
+    if (status === 400 || status === 401 || status === 402) { //TODO
+      dispatch(setAlert("Please enter an username and a password", "danger"));
+      toast.error(err.response.data);
+    }
+    if (status === 404) {
+      dispatch(setAlert("Cannot get subjects!", "danger"));
+      toast.error(err.response.data);
+    }
+    if (status === 405) {
+      toast.error(err.response.data);
+      dispatch(setAlert("The request or response is not write in a good way!", "danger"));
+    }
+    dispatch({
+      type: GET_SUBJECTS_BY_STUDENT_ERROR,
+      payload: err
+    });
+  }
+};
+
 
 export const getActivityTypesByTeacher = () => async dispatch =>{
 

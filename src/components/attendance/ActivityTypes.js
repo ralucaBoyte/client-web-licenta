@@ -9,6 +9,8 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {setCurrentActivity} from "../../store/attendance/qrCodeActions";
 import {getActivityTypesByTeacher} from "../../store/subjects/subjectActions";
+import Tables from "../../utils/styles/Tables.css";
+import classnames from 'classnames';
 
 // const options = [
 //     { key: 1, text: 'Curs' },
@@ -27,11 +29,12 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,loading}) => {
+const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,loading,attendanceErr}) => {
     const classes = useStyles();
     const [open, setOpen] = useState(false);
     const [typeId, setTypeId] = useState("");
     let currentActivity = "";
+
 
     if(loading){
         getActivityTypesByTeacher();
@@ -58,22 +61,22 @@ const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,
 
     }
 
+    //div/container - folosesc cand vreau sa returnez mai multe componente
     return (
-        <div>
-            <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Activity type</InputLabel>
-                <Select
-                    labelId="demo-controlled-open-select-label"
-                    id="demo-controlled-open-select"
-                    value={typeId}
-                    onChange={handleChange}
-                >
-                    {rows.map(row => (
-                        <MenuItem value={row.typeId} key={row.typeId} onClick={handleSelectedActivity}>{row.name}</MenuItem>
-                    ))}
-                </Select>
-            </FormControl>
-        </div>
+
+        <FormControl className={classnames(classes.formControl,{'is-invalid': attendanceErr.name})} >
+            <InputLabel id="demo-controlled-open-select-label" className={classnames('',{'is-invalid': attendanceErr.name})}>Activity type</InputLabel>
+            <Select
+                labelId="demo-controlled-open-select-label"
+                id="demo-controlled-open-select"
+                value={typeId}
+                onChange={handleChange}
+            >
+                {rows.map(row => (
+                    <MenuItem value={row.typeId} key={row.typeId} onClick={handleSelectedActivity}>{row.name}</MenuItem>
+                ))}
+            </Select>
+        </FormControl>
     );
 };
 
@@ -81,12 +84,14 @@ ActivityTypes.propTypes = {
     setCurrentActivity: PropTypes.func.isRequired,
     getActivityTypesByTeacher: PropTypes.func.isRequired,
     activities: PropTypes.array,
-    loading: PropTypes.bool
+    loading: PropTypes.bool,
+    attendanceErr: PropTypes.element
 };
 
 const mapStateToProps = state => ({
     activities: state.activities.data,
-    loading: state.activities.loading
+    loading: state.activities.loading,
+    attendanceErr: state.attendance.error
 });
 
 export default connect(mapStateToProps, {setCurrentActivity,getActivityTypesByTeacher})(ActivityTypes);

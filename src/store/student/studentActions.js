@@ -10,6 +10,7 @@ export const GET_STUDENT_BY_USERNAME_ERROR = "GET_STUDENT_BY_USERNAME_ERROR";
 export const SET_CURRENT_STUDENT = "SET_CURRENT_STUDENT";
 export const GET_STUDENTS_BY_SUBJECTS = "GET_STUDENTS_BY_SUBJECTS";
 export const GET_STUDENTS_BY_SUBJECTS_ERROR = "GET_STUDENTS_BY_SUBJECTS_ERROR";
+export const SET_STUDENTS = "SET_STUDENTS";
 
 export const getStudentsBySubjects = (subjects) => async dispatch =>{
 
@@ -21,7 +22,7 @@ export const getStudentsBySubjects = (subjects) => async dispatch =>{
     };
 
     try {
-        const res = await axios.get("student/subjects?subjectId="+subjects,config);
+        const res = await axios.get("student/students?subjectId="+subjects,config);
         console.log(res.data);
         dispatch({
             type: GET_STUDENTS_BY_SUBJECTS,
@@ -52,6 +53,13 @@ export const setCurrentStudent = (currentStudent) => async dispatch => {
     dispatch({
         type: SET_CURRENT_STUDENT,
         payload: currentStudent
+    })
+};
+
+export const setStudents = (students) => async dispatch => {
+    dispatch({
+        type:SET_STUDENTS,
+        payload: students
     })
 };
 

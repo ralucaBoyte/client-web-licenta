@@ -14,6 +14,7 @@ import Paper from '@material-ui/core/Paper';
 import {StyledTableCell, StyledTableRow} from "../../utils/styles/StyleTableElements";
 import {getStudentsBySubjects,setCurrentStudent} from "../../store/student/studentActions";
 import {addAttendance} from "../../store/attendance/qrCodeActions";
+import "../../App.css";
 
 const useStyles = makeStyles({
     table: {
@@ -26,17 +27,20 @@ const useStyles = makeStyles({
     }
 });
 
-const AttendaceManually = ({attendance,activities,subjects,students,loading,getStudentsBySubjects,setCurrentStudent,addAttendance}) => {
+const AttendanceManually = ({attendance,activities,subjects,students,loading,getStudentsBySubjects,setCurrentStudent,addAttendance}) => {
 
     const classes = useStyles();
+    const noStudents = "Nu există studenți la materia selectată";
+    let rows;
 
+    //TODO: refresh when is selected another subject
     if (loading) {
         if(subjects!=null)
             getStudentsBySubjects([subjects]);
     }
 
-    let rows;
-    if(students.data!=null)
+
+    if(students.data.length !== 0)
         rows = students.data.map(student => {
             return {
                 name: student,
@@ -44,7 +48,7 @@ const AttendaceManually = ({attendance,activities,subjects,students,loading,getS
             }
         });
     else
-        rows = [{name: "no students",selected: false}];
+        rows = [{name: noStudents,selected: false}];
 
 
     function handleSelectTableRow(student) {
@@ -52,56 +56,61 @@ const AttendaceManually = ({attendance,activities,subjects,students,loading,getS
         setCurrentStudent(student);
         console.log("selected student: "+students.currentStudent);
         if(attendance) {
-            console.log("++++ "+attendance);
-            addAttendance(attendance, student);
+            if (student !== noStudents) {
+                console.log("++++ " + attendance);
+                addAttendance(attendance, student);
+            }
         }
         else
             console.log("Generati o prezenta!!!"); //TODO: mesaj pe ecran
     }
 
     const visibleStudents = (
-        <Table
-            className={classes.table}
-            aria-label="customized table"
-        >
-            <TableHead>
-                <TableRow>
-                    <StyledTableCell align="left">Username of students&nbsp;</StyledTableCell>
-                </TableRow>
-            </TableHead>
-            <TableBody>
-                {rows.map((row) => (
-                    <StyledTableRow
-                        key={row.name}
-                        onClick={() => {handleSelectTableRow(row.name); row.selected = true;}}
-                        value={row.name}
-                        hover={true}
-                        // style={
-                        //     row.selected === true ? {background: '#EDE7E5'} : { background: '#8D8A89' }
-                        // }
-                    >
-                        <StyledTableCell key={row.name} component="th" scope="row">{row.name}</StyledTableCell>
-                    </StyledTableRow>
-                ))}
-            </TableBody>
-        </Table>
+        //TODO: try to change on ListGroup
+        <TableContainer component={Paper} >
+            <Table
+                className={classes.table}
+                aria-label="customized table"
+                // id = 'studentTableId'
+            >
+                <TableHead>
+                    <TableRow>
+                        <StyledTableCell align="left">Numele de utilizator a studenților înscriși&nbsp;</StyledTableCell>
+                    </TableRow>
+                </TableHead>
+                <TableBody>
+                    {rows.map((row) => (
+                        <StyledTableRow
+                            key={row.name}
+                            onClick={() => {handleSelectTableRow(row.name); row.selected = true;}}
+                            value={row.name}
+                            hover={true}
+                            // style={
+                            //     row.selected === true ? {background: '#EDE7E5'} : { background: '#8D8A89' }
+                            // }
+                        >
+                            <StyledTableCell key={row.name} component="th" scope="row">{row.name}</StyledTableCell>
+                        </StyledTableRow>
+                    ))}
+                </TableBody>
+            </Table>
+        </TableContainer>
+
     );
 
+    //TODO: try to customize the text <p>
     const notVisibleStudents = (
-        <div>
-            Selectati o materie
-        </div>
+        <p className='studentTable'>Studenții vor fi afișați când se va selecta o materie</p>
     );
 
     return (
-        //TODO: try to change on ListGroup
-        <TableContainer component={Paper} >
+        <div>
             {students.visible ? visibleStudents : notVisibleStudents}
-        </TableContainer>
+        </div>
     );
 };
 
-AttendaceManually.propTypes = {
+AttendanceManually.propTypes = {
     getStudentsBySubjects: PropTypes.func.isRequired,
     setCurrentStudent: PropTypes.func.isRequired,
     addAttendance: PropTypes.func.isRequired,
@@ -119,4 +128,4 @@ const mapStateToProps = state => ({
     attendance: state.attendance.attendance_id
 });
 
-export default connect(mapStateToProps,{getStudentsBySubjects,setCurrentStudent,addAttendance})(AttendaceManually)
+export default connect(mapStateToProps,{getStudentsBySubjects,setCurrentStudent,addAttendance})(AttendanceManually)

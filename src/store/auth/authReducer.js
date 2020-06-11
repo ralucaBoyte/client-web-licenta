@@ -3,14 +3,20 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
-  LOGOUT
+  LOGOUT,
+  SET_USERNAME,
+  SET_PASSWORD,
+  SET_ROLE
 } from "./authActions";
 
 const initialState = {
   access_token: localStorage.getItem("access_token"),
   refresh_token: localStorage.getItem("refresh_token"),
-  isAuthenticated: localStorage.getItem("isAuthenticated"),
-  loading: true
+  isAuthenticated: localStorage.getItem("isAuthenticated"),//?
+  loading: true,
+  username: localStorage.getItem("username"),
+  password: localStorage.getItem("password"),
+  role: localStorage.getItem("role")
 };
 
 export default function(state = initialState, action) {
@@ -39,6 +45,24 @@ export default function(state = initialState, action) {
         refresh_token: null,
         isAuthenticated: false,
         loading: false
+      };
+    case SET_USERNAME:
+      localStorage.setItem("username", payload);
+      return {
+        ...state,
+        username: payload
+      };
+    case SET_PASSWORD:
+      localStorage.setItem("password", payload);
+      return{
+        ...state,
+        password: payload
+      };
+    case SET_ROLE:
+      localStorage.setItem("role",payload);
+      return{
+        ...state,
+        role: payload
       };
     default:
       return state;

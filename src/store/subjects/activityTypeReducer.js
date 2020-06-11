@@ -26,10 +26,15 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 loading: false,
-                data: null
+                data: null,
+                error: payload
             };
         case AUTH_ERROR:
         case GET_REQUEST_FAIL:
+            return {
+                ...state,
+                error: payload
+            }
         default:
             return state;
     }

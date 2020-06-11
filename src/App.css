@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
 /* Global Styles */
 :root {
   --primary-color: #007bff;
@@ -235,8 +237,31 @@ img {
 }
 
 /* Forms */
+.form{
+  /*margin: auto;*/
+  margin: 1.5rem 0;
+  padding-right: 500px;
+}
+
 .form .form-group {
   margin: 1.2rem 0;
+  /*padding-right: 500px;*/
+  display:flex;
+  align-items: center;
+  /*margin: auto;*/
+
+}
+
+.form .form-group-password {
+  margin: 1.2rem 0;
+  /*padding-right: 500px;*/
+  display:flex;
+  align-items: center;
+  border: 1px solid #aaa;
+  /*margin: auto;*/
+  border-radius: 3px;
+  outline: none;
+
 }
 
 .form .form-text {
@@ -245,9 +270,18 @@ img {
   color: #888;
 }
 
+.form input[type="password"]{
+  /*display: block;*/
+  width: 100%;
+  padding: 0.4rem;
+  font-size: 1.2rem;
+  border: 0;
+  color: #333;
+}
+
 .form input[type="text"],
 .form input[type="username"],
-.form input[type="password"],
+/*.form input[type="password"],*/
 .form input[type="date"],
 .form select,
 .form textarea {
@@ -255,7 +289,7 @@ img {
   width: 100%;
   padding: 0.4rem;
   font-size: 1.2rem;
-  border: 1px solid #ccc;
+  border: 1px solid #aaa;
 }
 
 .form input[type="submit"],
@@ -333,12 +367,23 @@ button {
     font-size: 3rem;
   }
 
+  p.studentTable{
+    font-style: italic;
+    font-size: 0.5rem;
+  }
+
   .large {
     font-size: 2rem;
   }
 
   .lead {
     font-size: 1rem;
+  }
+
+  p.textTooltip{
+    word-wrap: break-word;
+    text-align: center;
+    width: 10px;
   }
 
   /* Navbar */
@@ -360,3 +405,23 @@ button {
     display: none;
   }
 }
+
+/* Provider */
+.principalProvider{
+  overflow: scroll;
+}
+
+.fragmentLogin{
+  background-color: #ffffff;
+  margin: auto;
+  padding-top: 100px;
+  /*width: 70%;*/
+  min-width: 300px;
+}
+
+.material-icons{
+  margin: 0 10px;
+  color : #aaa;
+  cursor: default;
+}
+
