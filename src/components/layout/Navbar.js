@@ -6,65 +6,27 @@ import { logout } from "../../store/auth/authActions";
 
 import { makeStyles, createStyles } from '@material-ui/core/styles'
 
-/*import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
-import Collapse from '@material-ui/core/Collapse'
-
-import IconExpandLess from '@material-ui/icons/ExpandLess'
-import IconExpandMore from '@material-ui/icons/ExpandMore'
-import IconDashboard from '@material-ui/icons/Dashboard'
-import IconShoppingCart from '@material-ui/icons/ShoppingCart'
-import IconPeople from '@material-ui/icons/People'
-import IconBarChart from '@material-ui/icons/BarChart'
-import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
-*/
 const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
-    //const classes = useStyles();
-
     const authLinks = (
-       /*<List component="nav" className={classes.appMenu} disablePadding>
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconDashboard />
-                </ListItemIcon>
-                <ListItemText primary="Dashboard" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconShoppingCart />
-                </ListItemIcon>
-                <ListItemText primary="Orders" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconPeople />
-                </ListItemIcon>
-                <ListItemText primary="Customers" />
-            </ListItem>
-
-            <ListItem button className={classes.menuItem}>
-                <ListItemIcon className={classes.menuItemIcon}>
-                    <IconBarChart />
-                </ListItemIcon>
-                <ListItemText primary="Reports" />
-            </ListItem>
-
-        </List>*/
     <ul>
-
-      <li>
-        <Link to="/attendance">Attendance</Link>
+        <li className="nav-item">
+            <Link to="/view"><i className="fas fa-book"/> <span
+                className="clearfix d-none d-sm-inline-block">View attendances</span></Link>
+        </li>
+      <li class="nav-item">
+        <Link to="/attendance"><i className="fas fa-pen-fancy"/> <span
+            className="clearfix d-none d-sm-inline-block">Attendance</span></Link>
       </li>
-    <li>
-        <Link to="/messages">Messages</Link>
+    <li class="nav-item">
+        <Link to="/reviews" ><i className="fas fa-comments"/> <span
+            className="clearfix d-none d-sm-inline-block">My reviews</span></Link>
     </li>
-      <li>
+    <li class="nav-item">
+        <Link to="/messages"><i className="fas fa-envelope"/> <span
+            className="clearfix d-none d-sm-inline-block">Messages</span></Link>
+    </li>
+      <li class="nav-item">
         <a onClick={logout} href="/">
           <i className="fas fa-sign-out-alt" />{" "}
           <span className="hide-sm">Logout</span>
@@ -75,18 +37,14 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const guestLinks = (
     <ul>
-      <li>
+      <li class="nav-item">
         <Link to="/login">Login</Link>
       </li>
     </ul>
   );
   return (
-    <nav className="navbar bg-dark">
-      <h1>
-        <Link to="/dashboard">
-          <i className="fas fa-code" /> AMS
-        </Link>
-      </h1>
+    <nav class="navbar fixed-top navbar-expand-lg navbar-dark indigo">
+        <a className="navbar-brand" href="#"><strong>Attender</strong></a>
       {
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>
       }

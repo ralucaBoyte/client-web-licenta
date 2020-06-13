@@ -10,11 +10,14 @@ import SubjectsTable from "../elements/SubjectsTable";
 import AttendanceGenerator from "../elements/AttendanceGenerator";
 //import ChatScreen from "../Chat/ChatScreen";
 import DashboardComponent from "../chat/MainChat/dashboard";
+import ReviewPage from "../reviews/ReviewPage";
+import ReviewTestimonialsPage from "../reviews/ReviewTestimonialsPage";
+import AttendancesPage from "../dashboard/AttendancesPage";
 
 
 const Routes = () => {
   return (
-    <section className="container">
+    <section className='container'>
       <Alert />
       <Switch>
         <Route exact path="/login" component={Login} />
@@ -23,10 +26,13 @@ const Routes = () => {
         <PrivateRoute exact path="/attendance" component={AttendanceGenerator} />
 
         <PrivateRoute exact path="/messages" component={DashboardComponent} />
+        <PrivateRoute exact path="/reviews" component={ReviewTestimonialsPage}/>
+        <PrivateRoute exact path="/view" component={AttendancesPage}/>
         <Route component={NotFound} />
       </Switch>
     </section>
   );
 };
+
 
 export default Routes;

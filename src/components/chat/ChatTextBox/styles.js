@@ -14,7 +14,7 @@ const styles = theme => ({
     left: '315px',
     boxSizing: 'border-box',
     overflow: 'auto',
-    width: 'calc(100% - 300px - 80px)'
+    width: 'calc(100% - 300px - 50px)'
   },
 
   chatTextBox: {

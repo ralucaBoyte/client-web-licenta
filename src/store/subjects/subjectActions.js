@@ -22,34 +22,6 @@ export const getSubjects = () => async dispatch => {
   try {
       const subjects = await axios.get("attendance/subjects", config);
       console.log(subjects.data);
-      /*const res = {
-      data: [
-        {
-          subject_id: 1,
-          credits: 4,
-          name: "FP",
-          year: 1
-        },
-        {
-          subject_id: 2,
-          credits: 5,
-          name: "ASC",
-          year: 2
-        },
-        {
-          subject_id: 3,
-          credits: 5,
-          name: "SO",
-          year: 1
-        },
-        {
-          subject_id: 4,
-          credits: 6,
-          name: "OOP",
-          year: 3
-        }
-      ]
-    };*/
     dispatch({
       type: GET_SUBJECTS_BY_TEACHER,
       payload: subjects.data

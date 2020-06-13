@@ -3,15 +3,26 @@ import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { getQRCode } from "../../store/attendance/qrCodeActions";
 import QRCode_Generator from "./QRCode_Generator";
+import '@fortawesome/fontawesome-free/css/all.min.css';
+import "bootstrap-css-only/css/bootstrap.min.css";
+import "mdbreact/dist/css/mdb.css";
+import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 const Dashboard = ({getQRCode}) => {
 
   return (
     <Fragment>
-      <h1 className="large text-primary">Dashboard</h1>
-        <QRCode_Generator/>
-        <button className='btn btn-primary' onClick={() => getQRCode(this.attendance.activity_id)}>
-            <i className='fas fa-user-minus' /> Generate qr code
-        </button>
+      <MDBContainer>
+        <MDBRow>
+          <MDBCol md="9">
+            <QRCode_Generator/>
+          </MDBCol>
+          <MDBCol md="3">
+            <button className='btn btn-primary' onClick={() => getQRCode(this.attendance.activity_id)}>
+              <i className='fas fa-user-minus' />Generate qr code
+            </button>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
     </Fragment>
   );
 };

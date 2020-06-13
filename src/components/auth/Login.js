@@ -3,6 +3,8 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../store/auth/authActions";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCardHeader, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow} from "mdbreact";
+import Alert from "../layout/Alert";
 
 const Login = ({ login, isAuthenticated, role }) => {
   const [formData, setFormData] = useState({
@@ -12,47 +14,101 @@ const Login = ({ login, isAuthenticated, role }) => {
 
   const { username, password } = formData;
 
-  const onChange = e =>
-      setFormData({ ...formData, [e.target.name]: e.target.value });
 
+  const onChangeUsername = e => {
+    setFormData({...formData, username: e.target.value});
+  };
+
+  const onChangePassword = e => {
+    setFormData({...formData, password: e.target.value});
+  };
   const onSubmit = async e => {
     e.preventDefault();
     login(username, password);
   };
 
   if (isAuthenticated) {
-    return <Redirect to="/my-profile" />;
+    return <Redirect to="/attendance" />;
   }
 
+  let handleChange = (e) => {
+    // Set the state dynamically using the event param
+    this.setState({[e.target.name]: e.target.value})
+  };
+
   return (
-      <Fragment>
-        <p className="lead">
-          <i className="fas fa-user" /> Sign Into Your Account
-        </p>
-        <form className="form" onSubmit={e => onSubmit(e)}>
-          <div className="form-group">
-            <input
-                type="text"
-                placeholder="Username"
-                name="username"
-                value={username}
-                onChange={e => onChange(e)}
-                required
-            />
-          </div>
-          <div className="form-group">
-            <input
-                type="password"
-                placeholder="Password"
-                name="password"
-                value={password}
-                onChange={e => onChange(e)}
-                required
-            />
-          </div>
-          <input type="submit" className="btn btn-primary" value="Login" />
-        </form>
-      </Fragment>
+      // <Fragment>
+      //   <p className="lead">
+      //     <i className="fas fa-user" /> Sign Into Your Account
+      //   </p>
+      //   <form className="form" onSubmit={e => onSubmit(e)}>
+      //     <div className="form-group">
+      //       <input
+      //           type="text"
+      //           placeholder="Username"
+      //           name="username"
+      //           value={username}
+      //           onChange={e => onChange(e)}
+      //           required
+      //       />
+      //     </div>
+      //     <div className="form-group">
+      //       <input
+      //           type="password"
+      //           placeholder="Password"
+      //           name="password"
+      //           value={password}
+      //           onChange={e => onChange(e)}
+      //           required
+      //       />
+      //     </div>
+      //     <input type="submit" className="btn btn-primary" value="Login" />
+      //   </form>
+      // </Fragment>
+      <MDBContainer className="container_login">
+        <Alert className="alert"/>
+        <MDBRow className="container_login_row">
+          <MDBCol md="6">
+            <MDBCard>
+              <MDBCardBody>
+                <form onSubmit={e => onSubmit(e)}>
+                  <p className="h4 text-center py-4">Log into your account</p>
+                  <div className="grey-text">
+                    <MDBInput
+                        label="Your username"
+                        icon="user"
+                        group
+                        type="text"
+                        validate
+                        error="wrong"
+                        success="right"
+                        onKeyUp={e => onChangeUsername(e)}
+                        required
+                    />
+                    <MDBInput
+                        label="Your password"
+                        icon="lock"
+                        group
+                        type="password"
+                        validate
+                        error="wrong"
+                        success="right"
+                        onKeyUp={e => onChangePassword(e)}
+                        required
+                    />
+                  </div>
+                  <div className="text-center py-4 mt-3">
+                    <MDBBtn color="light-blue" type="submit">
+                      Log in
+                    </MDBBtn>
+                  </div>
+                </form>
+              </MDBCardBody>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+
   );
 };
 

@@ -13,6 +13,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import MaterialTable from 'material-table'
 import {setCurrentSubject} from "../../store/attendance/qrCodeActions";
+import Spinner from "../layout/Spinner";
 
 const columns = [
     {
@@ -75,53 +76,36 @@ const useStyles = makeStyles({
     }
 });
 
-const SubjectsTable = ({getSubjects, subjects, loading, setCurrentSubject}) => {
+const AttendancesTable = ({attendances, loadingAttendances}) => {
 
-    const [selectedRow, setSelectedRow] = useState(1);
 
-    if (loading) {
-        getSubjects();
-    }
-
-    const selectTableRow = value => {
-      setSelectedRow(value);
-      setCurrentSubject(value.id);
-    };
-
-    return (
+    return loadingAttendances ? (
+        <Spinner/>
+    ) : (
 
         <MaterialTable
-            title="Subjects"
+            title="Present students"
             columns={[
-                    { title: 'Id', field: 'id' },
-                    { title: 'Subject', field: 'name' },
-                    { title: 'Credits', field: 'credits', type: 'numeric' },
-                    { title: 'Year', field: 'year', type: 'numeric' }
+                { title: 'Student', field: 'student_id' },
+                { title: 'Course', field: 'name' },
+                { title: 'Type', field: 'type'}
 
-                    ]}
-            data={subjects}
-            onRowClick={(evt, selectedRow) => selectTableRow( selectedRow )}
-            options={{
-                rowStyle: rowData => ({
-                    backgroundColor: (selectedRow && selectedRow.id === rowData.id) ? '#EEE' : '#FFF'
-                })
-            }}
-            />
-            );
+            ]}
+            data={attendances}
+        />
+    );
 };
-SubjectsTable.propTypes = {
-    getSubjects: PropTypes.func.isRequired,
-    setCurrentSubject: PropTypes.func.isRequired,
-    loading: PropTypes.bool,
-    subjects: PropTypes.array
+AttendancesTable.propTypes = {
+    loadingAttendances: PropTypes.bool,
+    attendances: PropTypes.array
 };
 
 const mapStateToProps = state => ({
-    subjects: state.subjects.data,
-    loading: state.subjects.loading
+    attendances: state.attendances_view.attendances,
+    loadingAttendances: state.attendances_view.loadingAttendances
 });
 
 export default connect(
     mapStateToProps,
     {getSubjects, setCurrentSubject}
-)(SubjectsTable);
+)(AttendancesTable);

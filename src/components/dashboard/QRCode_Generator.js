@@ -1,6 +1,7 @@
 import {connect} from "react-redux";
 import PropTypes from "prop-types";
-import QRCode from 'qrcode.react';
+//import QRCode from 'qrcode.react';
+import QRCode from "react-qr-code";
 import React, { Fragment} from 'react';
 import {getQRCode} from "../../store/attendance/qrCodeActions";
 
@@ -11,7 +12,7 @@ const QRCode_Generator = ({attendance, getQRCode}) => {
 
     const notVisibleQR = (
         <div>
-            Niciun cod QR generat
+            No QR code generated
         </div>
     );
 

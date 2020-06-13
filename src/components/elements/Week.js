@@ -7,15 +7,12 @@ import Select from '@material-ui/core/Select';
 //import Button from '@material-ui/core/Button';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {setCurrentActivity} from "../../store/attendance/qrCodeActions";
-import {getActivities} from "../../store/subjects/subjectActions";
+import {setWeek} from "../../store/attendance/qrCodeActions";
 import Spinner from "../layout/Spinner";
 
-// const options = [
-//     { key: 1, text: 'Curs' },
-//     { key: 2, text: 'Laborator' },
-//     { key: 3, text: 'Seminar' },
-// ];
+const weeks = [
+    1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14
+];
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -28,36 +25,31 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const ActivityTypes = ({loadingActivities, setCurrentActivity, getActivities, activities}) => {
+const Week = ({setWeek}) => {
     const classes = useStyles();
-    const [typeId, setTypeId] = useState(1);
+    const [weekId, setWeekId] = useState(1);
 
     const handleChange = (event) => {
-        setTypeId(event.target.value);
-        setCurrentActivity(event.target.value);
+        setWeekId(event.target.value);
+        setWeek(event.target.value);
     };
 
 
-    if(loadingActivities){
-        getActivities();
-    }
-
-    return loadingActivities ? (
-        <Spinner/>
-        ) : (
+    return (
 
         <div style={activity_style}>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Activity type</InputLabel>
+                <InputLabel id="demo-controlled-open-select-label" min="1" max="14">Week</InputLabel>
                 <Select
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"
-                    value={typeId}
+                    value={weekId}
+                    min = "1"
+                    max = "14"
                     onChange={handleChange}
                 >
-
-                    {activities.map(activity => (
-                        <MenuItem value={activity.id} key={activity.id}>{activity.type}</MenuItem>
+                    {weeks.map(week => (
+                        <MenuItem value={week} key={week}>Week {week}</MenuItem>
                     ))}
                 </Select>
             </FormControl>
@@ -69,13 +61,11 @@ const activity_style = {
     display: 'flex'
 };
 
-ActivityTypes.propTypes = {
-    setCurrentActivity: PropTypes.func.isRequired,
-    getActivities: PropTypes.func.isRequired,
+Week.propTypes = {
+    setWeek: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
-    activities: state.subjects.activities,
-    loadingActivities: state.subjects.loadingActivities
+    activities: state.subjects.activities
 });
-export default connect(mapStateToProps, {setCurrentActivity, getActivities})(ActivityTypes);
+export default connect(mapStateToProps, {setWeek})(Week);

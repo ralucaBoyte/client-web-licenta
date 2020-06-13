@@ -43,13 +43,13 @@ export const login = (username, password) => async dispatch => {
       payload: username
     })
 
-
   } catch (err) {
-    console.log(err.response);
+    console.log(err.response.data);
     const status = err.response.status;
-    if (status === 401) {
-      dispatch(setAlert("Please enter a valid username and password", "danger"));
-    }
+    console.log(status);
+
+    dispatch(setAlert(err.response.data, "danger"));
+
     dispatch({
       type: LOGIN_FAIL,
       payload: err

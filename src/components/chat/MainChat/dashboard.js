@@ -6,10 +6,10 @@ import ChatTextBoxComponent from '../ChatTextBox/chatTextBox';
 import styles from './styles';
 import { Button, withStyles } from '@material-ui/core';
 //const firebase = require("firebase");
-import SockJS from "sockjs-client";
-import PropTypes from "prop-types";
-import { connect } from "react-redux";
-import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+// import SockJS from "sockjs-client";
+// import PropTypes from "prop-types";
+// import { connect } from "react-redux";
+// import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 import axios from "axios";
 
 
@@ -48,11 +48,11 @@ class DashboardComponent extends Component {
     console.log("+++++++++++++++++GET ALL USERS++++++++++++++++");
     try {
       const url = "http://localhost:8765/chat/users";
-      const url2 = "http://localhost:8765/chat/custom2";
+      const url2 = "http://localhost:8765/chat/messages";
 
       let res = await axios.get(url);
       let res2 = await axios.post(url2, data, config);
-
+      console.log(res.data);
       this.setState({
         chats:  res2.data,
         friends: res.data,
@@ -62,6 +62,8 @@ class DashboardComponent extends Component {
       console.log(e);
     }
     console.log("+++++++++++++++++++++++++++++++++++++++++++++");
+    console.log(this.state.chats);
+
   };
 
   componentWillUnmount() {
@@ -111,11 +113,11 @@ class DashboardComponent extends Component {
     console.log(message.receiver);
     console.log(message.sender);
     console.log(message.content);
-    console.log(message.conversation_id);
+    console.log(message.conversationId);
 
-    let new_chats = this.state.chats.slice();
+    let new_chats = this.state.chats;
 
-    new_chats[message.conversation_id].push(message);
+    new_chats[message.conversationId].push(message);
     console.log("new chats");
     console.log(new_chats);
 
@@ -135,7 +137,7 @@ class DashboardComponent extends Component {
     const { classes } = this.props;
 
       return(
-        <div className='dashboard-container' id='dashboard-container'>
+        <div className='container_chat' id='dashboard-container'>
           <ChatListComponent history={this.props.history}
             userEmail={this.state.email}
             selectChatFn={this.selectChat}
@@ -155,7 +157,7 @@ class DashboardComponent extends Component {
           {
             this.state.newChatFormVisible ? <NewChatComponent goToChatFn={this.goToChat} newChatSubmitFn={this.newChatSubmit}></NewChatComponent> : null
           }
-          <Button onClick={this.signOut} className={classes.signOutBtn}>Sign Out</Button>
+          
         </div>
       );
   }
@@ -170,19 +172,23 @@ class DashboardComponent extends Component {
     let receiver = (message.sender !== this.state.username) ? message.sender : message.receiver;
 
     console.log("receiver ");
-    console.log(receiver);
-    console.log(this.state.chats[this.state.selectedChat][0]);
+    console.log(this.state.selectedChat);
+    console.log("selected chat");
+    // console.log(receiver);
+    // console.log(this.state.chats[this.state.selectedChat][0]);
+    // console.log(this.state.chats);
     let chatMessage = {
       sender: this.state.username,
       receiver: receiver,
       content: msg,
-      conversation_id: this.state.selectedChat
+      conversationId: this.state.chats[this.state.selectedChat][0].conversationId
     };
     // send public message
+    console.log(chatMessage);
     stompClient.send("/app/sendPrivateMessage", {}, JSON.stringify(chatMessage));
 
 
-    let new_chats = this.state.chats.slice();
+    let new_chats = this.state.chats;
     new_chats[this.state.selectedChat].push(chatMessage);
     this.setState({
       chats: new_chats
@@ -198,7 +204,7 @@ class DashboardComponent extends Component {
 
   newChatSubmit = async (chatObj) => {
     this.sendMessage(this.state.sender, this.state.message);
-    const docKey = this.buildDocKey(chatObj.sendTo);
+    //const docKey = this.buildDocKey(chatObj.sendTo);
     this.setState({ newChatFormVisible: false });
     this.selectChat(this.state.chats.length - 1);
   };
@@ -211,7 +217,7 @@ class DashboardComponent extends Component {
   goToChat = async (docKey, msg) => {
     console.log("GO TO CHAT++++++++++=");
     console.log(this.state.chats);
-    const usersInChat = this.state.friends;
+    //const usersInChat = this.state.friends;
     //const chat = this.state.chats.find(_chat => usersInChat.every(_user => _chat.users.includes(_user)));
     //this.setState({ newChatFormVisible: false });
    // await this.selectChat(this.state.chats.indexOf(chat));
@@ -222,7 +228,7 @@ class DashboardComponent extends Component {
   // that we are calling this function from within a loop such as the chatList.
   // So we will set a default value and can overwrite it when necessary.
   messageRead = () => {
-    const chatIndex = this.state.selectedChat;
+    //const chatIndex = this.state.selectedChat;
     //const docKey = this.buildDocKey(this.state.chats[chatIndex].users.filter(_usr => _usr !== this.state.email)[0]);
     //if(this.clickedMessageWhereNotSender(chatIndex)) {
       /*firebase

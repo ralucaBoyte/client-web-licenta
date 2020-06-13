@@ -19,9 +19,9 @@ class ChatListComponent extends React.Component {
     const { classes } = this.props;
     let username = localStorage.getItem("username");
     console.log("+++++++++chat list component ++++++++++++");
-    console.log(this.props);
-    //console.log(this.props.chats.);
-    if(this.props.chats.length > 0) {
+
+
+    if(this.props.chats) {
       return(
         <div className={classes.root}>
             <Button variant="contained"
@@ -33,37 +33,41 @@ class ChatListComponent extends React.Component {
             </Button>
             <List>
               {
-                this.props.chats.map((_chat, _index) => {
-
+                  Object.keys(this.props.chats).map((el, chats) => {
+                   //    this.props.chats[el].map((_chat, _index) => {
+                   //  console.log(_index);
+                   // console.log(_chat);
+                   // console.log(_chat.content);
+                      console.log(chats);
                   return (
-                    <div key={_index}>
-                      <ListItem onClick={() => this.selectChat(_index)}
+                    <div key={el}>
+                      <ListItem onClick={() => this.selectChat(el)}
                         className={classes.listItem}
-                        selected={this.props.selectedChatIndex === _index}
+                        selected={this.props.selectedChatIndex === el}
                         alignItems="flex-start">
                           <ListItemAvatar>
 
                               <Avatar alt="Remy Sharp">{
-                                  (_chat[0].sender !== username ) ? _chat[0].sender.split('')[0] :  _chat[0].receiver.split('')[0]
+                                  (this.props.chats[el][0].sender !== username ) ? this.props.chats[el][0].sender.split('')[0] :  this.props.chats[el][0].receiver.split('')[0]
                               }</Avatar>
                           </ListItemAvatar>
 
                           <ListItemText
                            primary={
-                               (_chat[0].sender !== username ) ? _chat[0].sender :  _chat[0].receiver
+                               (this.props.chats[el][0].sender !== username ) ? this.props.chats[el][0].sender :  this.props.chats[el][0].receiver
                            }
                           secondary={
                             <React.Fragment>
                               <Typography component='span'
                                 color='textPrimary'>
                                   {//_chat.messages[_chat.messages.length - 1].message.substring(0, 30) + ' ...'}
-                                        _chat[0].content.substring(0, 30)
+                                      this.props.chats[el][0].content.substring(0, 30)
                                   }
                               </Typography>
                             </React.Fragment>
                           }/>
                           {
-                            _chat.receiverHasRead === false && !this.userIsSender(_chat) ?
+                              this.props.chats[el].receiverHasRead === false && !this.userIsSender(this.props.chats[el]) ?
                             <ListItemIcon><NotificationImportant className={classes.unreadMessage}></NotificationImportant></ListItemIcon> :
                             null
                           }
@@ -71,8 +75,9 @@ class ChatListComponent extends React.Component {
                       <Divider/>
                     </div>
                   )
-                })
-              }
+                }
+                )}
+
             </List>
         </div>
       );

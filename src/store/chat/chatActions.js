@@ -1,9 +1,9 @@
-import {SET_CURRENT_ACTIVITY_TYPE, SHOW_QR_ATTENDANCE_FAILED} from "../attendance/qrCodeActions";
+//import {SET_CURRENT_ACTIVITY_TYPE, SHOW_QR_ATTENDANCE_FAILED} from "../attendance/qrCodeActions";
 import axios from "axios";
 
 export const CHANNEL_CONNECTED = "CHANNEL_CONNECTED";
-export const MESSAGE_SENT = "MESSAGE_SENT";
-export const MESSAGE_RECEIVED = "MESSAGE_RECEIVED";
+// export const MESSAGE_SENT = "MESSAGE_SENT";
+// export const MESSAGE_RECEIVED = "MESSAGE_RECEIVED";
 export const GET_USERS ="GET_USERS";
 export const NEW_CHAT = "NEW_CHAT";
 

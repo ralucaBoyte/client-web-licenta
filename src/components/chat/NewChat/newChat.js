@@ -89,7 +89,7 @@ class NewChatComponent extends React.Component {
       //chatExists ? this.goToChat() : this.createChat();
     //}
     this.createChat();
-  }
+  };
 
   buildDocKey = () => {
   }// [firebase.auth().currentUser.email, this.state.username].sort().join(':');

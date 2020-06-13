@@ -34,14 +34,67 @@ img {
   width: 100%;
 }
 
+/*
+ FOR LOGIN PAGE
+ */
+.container_login {
+  width: 80%;
+}
+
+.container_login_row{
+  justify-content: center;
+  margin-top: 6rem;
+  margin-bottom: 1rem;
+}
+.form-simple .font-small {
+  font-size: 0.8rem; }
+
+.form-simple .header {
+  border-top-left-radius: .3rem;
+  border-top-right-radius: .3rem; }
+
+.form-simple input[type=text]:focus:not([readonly]) {
+  border-bottom: 1px solid #ff3547;
+  -webkit-box-shadow: 0 1px 0 0 #ff3547;
+  box-shadow: 0 1px 0 0 #ff3547; }
+
+.form-simple input[type=text]:focus:not([readonly]) + label {
+  color: #4f4f4f; }
+
+.form-simple input[type=password]:focus:not([readonly]) {
+  border-bottom: 1px solid #ff3547;
+  -webkit-box-shadow: 0 1px 0 0 #ff3547;
+  box-shadow: 0 1px 0 0 #ff3547; }
+
+.form-simple input[type=password]:focus:not([readonly]) + label {
+  color: #4f4f4f; }
+
 /* Utilities */
 .container {
-  max-width: 1100px;
-  margin: auto;
+  max-width: 100%;
   overflow: hidden;
   padding: 0 2rem;
-  margin-top: 6rem;
+  margin-top: 2rem;
   margin-bottom: 3rem;
+}
+
+.container_chat {
+  max-width: 100%;
+  margin-top: 4rem;
+}
+
+.container_reviews{
+  max-width: 1100px;
+}
+
+.container_attendance {
+  max-width: 100%;
+  margin-top: 10rem;
+}
+
+._container_qr_code{
+  width: 80%;
+  height: 80%;
 }
 
 /* Text Styles*/
@@ -150,7 +203,7 @@ img {
 
 .alert {
   padding: 0.8rem;
-  margin: 1rem 0;
+  margin: 3rem 0;
   opacity: 0.9;
   background: var(--light-color);
   color: #333;
@@ -268,7 +321,7 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0.7rem 2rem;
+  padding: 0.7rem 0.7rem;
   position: fixed;
   z-index: 1;
   width: 100%;
@@ -320,9 +373,9 @@ button {
 
 /* Mobile Styles */
 @media (max-width: 700px) {
-  .container {
-    margin-top: 8rem;
-  }
+  /*.container {*/
+  /*  margin-top: 3rem;*/
+  /*}*/
 
   .hide-sm {
     display: none;
