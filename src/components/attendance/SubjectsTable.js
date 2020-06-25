@@ -1,19 +1,17 @@
-import React, {useState} from "react";
-import DataTable from "react-data-table-component";
+import React from "react";
 import { connect } from "react-redux";
 import {getSubjects,setCurrentSubject} from "../../store/subjects/subjectActions";
 import PropTypes from "prop-types";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import {StyledTableCell, StyledTableRow} from "../../utils/styles/StyleTableElements";
 import '../../utils/styles/Tables.css';
-import {getStudentsBySubjects, setStudents} from "../../store/student/studentActions";
+import {getStudentsBySubjects} from "../../store/student/studentActions";
 
 const useStyles = makeStyles({
     table: {
@@ -28,77 +26,87 @@ const useStyles = makeStyles({
 
 const SubjectsTable = ({getStudentsBySubjects,setCurrentSubject,getSubjects, subjects, loading, students}) => {
 
-    // const [selected, setSelected] = useState(null);
-    let selected = false;
-
     if (loading) {
         getSubjects();
     }
 
     function handleSelectTableRow (subjectId){
-      console.log(subjectId);
+
       setCurrentSubject(subjectId);
       getStudentsBySubjects([subjectId]);
-      // setStudents
-      selected = true;
       students = true;
     }
 
     const classes = useStyles();
 
     let rows;
-    rows = subjects.map(subject => {
-       return {
-           id: subject.id,
-           name: subject.name,
-           credits: subject.credits,
-           specId: subject.specId,
-           year: subject.year,
-           selected: false
-           }
-    });
+    let noSubjects = true;
+    if(subjects !== null){
+        rows = subjects.map(subject => {
+            return {
+                id: subject.id,
+                name: subject.name,
+                credits: subject.credits,
+                specId: subject.specId,
+                year: subject.year,
+                selected: false
+            }
+        });
+        noSubjects = false;
+    }
+    else{
+        noSubjects = true;
+    }
 
-//component={Paper} -- for style
+    const notVisibleSubjects = (
+        <p className='subjectAttendanceDiv'>Nu exista discipline pentru dumneavoastra</p>
+    );
+
+    const visibleSubjects = (
+        <div className='subjectAttendanceDiv'>
+            <TableContainer component={Paper} id='subjectTableId'>
+                <Table
+                    className={classes.table}
+                    aria-label="customized table"
+                    id='subjectTableId'
+                >
+                    <TableHead>
+                        <TableRow>
+                            <StyledTableCell align="left">Nume&nbsp;</StyledTableCell>
+                            <StyledTableCell align="center">Credite&nbsp;</StyledTableCell>
+                            <StyledTableCell align="center">Id specializare&nbsp;</StyledTableCell>
+                            <StyledTableCell align="center">An&nbsp;</StyledTableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {
+                            rows.map((row) => (
+                                <StyledTableRow
+                                    key={row.id}
+                                    className = {row.selected ? 'background-hover' : null }
+                                    onClick={() => {handleSelectTableRow(row.id); row.selected = true;}}
+                                    value={row.id}
+                                    hover = {true}
+                                >
+                                    <StyledTableCell key={row.name} component="th" scope="row">{row.name}</StyledTableCell>
+                                    <StyledTableCell key={row.credits} align="center">{row.credits}</StyledTableCell>
+                                    <StyledTableCell key={row.specId} align="center">{row.specId}</StyledTableCell>
+                                    <StyledTableCell key={row.year} align="center">{row.year}</StyledTableCell>
+                                </StyledTableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </div>
+    );
+
     return (
-        <TableContainer component={Paper} id='subjectTableId'>
-            <Table
-                className={classes.table}
-                aria-label="customized table"
-                id='subjectTableId'
-            >
-                <TableHead>
-                    <TableRow>
-                        <StyledTableCell align="left">Subjects&nbsp;</StyledTableCell>
-                        <StyledTableCell align="center">Credits&nbsp;</StyledTableCell>
-                        <StyledTableCell align="center">Specialization Id&nbsp;</StyledTableCell>
-                        <StyledTableCell align="center">Year&nbsp;</StyledTableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow
-                            key={row.id}
-                            className = {row.selected ? 'background-hover' : null }
-                            onClick={() => {handleSelectTableRow(row.id); row.selected = true;}}
-                            value={row.id}
-                            // style = {{hover: {background: '#9EC8BC'}}} //TODO: change color on Click
-                            hover = {true}
-                        >
-                            <StyledTableCell key={row.name} component="th" scope="row">{row.name}</StyledTableCell>
-                            <StyledTableCell key={row.credits} align="center">{row.credits}</StyledTableCell>
-                            <StyledTableCell key={row.specId} align="center">{row.specId}</StyledTableCell>
-                            <StyledTableCell key={row.year} align="center">{row.year}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+            noSubjects ? notVisibleSubjects : visibleSubjects
     );
 };
 SubjectsTable.propTypes = {
     getSubjects: PropTypes.func.isRequired,
     setCurrentSubject: PropTypes.func.isRequired,
-    // setStudents: PropTypes.func.isRequired,
     getStudentsBySubjects: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     subjects: PropTypes.array,

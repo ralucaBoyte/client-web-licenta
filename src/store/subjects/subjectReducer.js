@@ -10,6 +10,7 @@ const initialState = {
   currentSubject: null,
   loading: true,
   data: [],
+  groups: [],
   error: {}
 };
 
@@ -27,7 +28,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        data: null
+        data: []
       };
     case GET_SUBJECTS_BY_STUDENT:
       return {
@@ -39,7 +40,7 @@ export default function(state = initialState, action) {
       return {
         ...state,
         loading: false,
-        data: null
+        data: []
       };
     case SET_CURRENT_SUBJECT:
       return{

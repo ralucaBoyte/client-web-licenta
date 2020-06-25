@@ -4,28 +4,13 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { logout } from "../../store/auth/authActions";
 
-import { makeStyles, createStyles } from '@material-ui/core/styles'
-
-/*import List from '@material-ui/core/List'
-import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
-import ListItemText from '@material-ui/core/ListItemText'
-import Divider from '@material-ui/core/Divider'
-import Collapse from '@material-ui/core/Collapse'
-
-import IconExpandLess from '@material-ui/icons/ExpandLess'
-import IconExpandMore from '@material-ui/icons/ExpandMore'
-import IconDashboard from '@material-ui/icons/Dashboard'
-import IconShoppingCart from '@material-ui/icons/ShoppingCart'
-import IconPeople from '@material-ui/icons/People'
-import IconBarChart from '@material-ui/icons/BarChart'
-import IconLibraryBooks from '@material-ui/icons/LibraryBooks'
-*/
 const Navbar = ({ auth: { isAuthenticated, loading, role}, logout }) => {
 
-    //const classes = useStyles();
     const authTeacherLinks = (
         <ul>
+            <li>
+                <Link to="/students">Studenți</Link>
+            </li>
             <li>
                 <Link to="/attendance">Prezențe</Link>
             </li>
@@ -40,6 +25,12 @@ const Navbar = ({ auth: { isAuthenticated, loading, role}, logout }) => {
 
     const authStudentLinks = (
         <ul>
+            <li>
+                <Link to="/attendanceStud">Prezență</Link>
+            </li>
+            <li>
+                <Link to="/situation">Situație</Link>
+            </li>
             <li>
                 <Link to="/subject">Discipline</Link>
             </li>
@@ -67,7 +58,7 @@ const Navbar = ({ auth: { isAuthenticated, loading, role}, logout }) => {
     <nav className="navbar bg-dark">
       <h1>
         <Link to="/my-profile">
-          <i className="fas fa-code" /> AMS
+          <i className="fas fa-code" /> PSE system
         </Link>
       </h1>
       {
@@ -85,24 +76,5 @@ Navbar.propTypes = {
 const mapStateToProps = state => ({
   auth: state.auth
 });
-
-
-const drawerWidth = 240;
-const useStyles = makeStyles(theme =>
-    createStyles({
-        appMenu: {
-            width: '100%',
-        },
-        navList: {
-            width: drawerWidth,
-        },
-        menuItem: {
-            width: drawerWidth,
-        },
-        menuItemIcon: {
-            color: '#97c05c',
-        },
-    }),
-);
 
 export default connect(mapStateToProps, { logout })(Navbar);

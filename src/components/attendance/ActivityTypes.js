@@ -1,22 +1,15 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
-import {setCurrentActivity} from "../../store/attendance/qrCodeActions";
+import {setCurrentActivity} from "../../store/attendance/attendanceActions";
 import {getActivityTypesByTeacher} from "../../store/subjects/subjectActions";
-import Tables from "../../utils/styles/Tables.css";
 import classnames from 'classnames';
 
-// const options = [
-//     { key: 1, text: 'Curs' },
-//     { key: 2, text: 'Laborator' },
-//     { key: 3, text: 'Seminar' },
-// ];
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -30,11 +23,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,loading,attendanceErr}) => {
-    const classes = useStyles();
-    const [open, setOpen] = useState(false);
-    const [typeId, setTypeId] = useState("");
-    let currentActivity = "";
 
+    const classes = useStyles();
+    const [typeId, setTypeId] = useState("");
 
     if(loading){
         getActivityTypesByTeacher();
@@ -45,9 +36,6 @@ const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,
         setCurrentActivity(event.target.value);
     };
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
 
     let rows;
     rows = activities.map(activity => {
@@ -57,15 +45,10 @@ const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,
         }
     });
 
-    function handleSelectedActivity() {
 
-    }
-
-    //div/container - folosesc cand vreau sa returnez mai multe componente
     return (
-
         <FormControl className={classnames(classes.formControl,{'is-invalid': attendanceErr.name})} >
-            <InputLabel id="demo-controlled-open-select-label" className={classnames('',{'is-invalid': attendanceErr.name})}>Activity type</InputLabel>
+            <InputLabel id="demo-controlled-open-select-label" className={classnames('',{'is-invalid': attendanceErr.name})}>Activitate</InputLabel>
             <Select
                 labelId="demo-controlled-open-select-label"
                 id="demo-controlled-open-select"
@@ -73,7 +56,7 @@ const ActivityTypes = ({setCurrentActivity,getActivityTypesByTeacher,activities,
                 onChange={handleChange}
             >
                 {rows.map(row => (
-                    <MenuItem value={row.typeId} key={row.typeId} onClick={handleSelectedActivity}>{row.name}</MenuItem>
+                    <MenuItem value={row.typeId} key={row.typeId}>{row.name}</MenuItem>
                 ))}
             </Select>
         </FormControl>

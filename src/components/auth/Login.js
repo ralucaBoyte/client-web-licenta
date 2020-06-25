@@ -2,9 +2,10 @@ import React, { Fragment, useState } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { login, setUsernameAndPassword, getRole } from "../../store/auth/authActions";
+import {login, setUsernameAndPassword, getRole} from "../../store/auth/authActions";
 
-const Login = ({ login, isAuthenticated, role, setUsernameAndPassword, getRole }) => {
+const Login = ({ login, isAuthenticated, setUsernameAndPassword, getRole }) => {
+
   const [formData, setFormData] = useState({
     username: "",
     password: ""
@@ -83,12 +84,12 @@ Login.propTypes = {
   getRole: PropTypes.func.isRequired,
   isAuthenticated: PropTypes.bool,
   setUsernameAndPassword: PropTypes.func.isRequired,
-  role: PropTypes.string
+  getGroup: PropTypes.func.isRequired,
+  setGroup: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  role: state.auth.role
+  isAuthenticated: state.auth.isAuthenticated
 });
 
 export default connect(mapStateToProps, { login,setUsernameAndPassword,getRole })(Login);

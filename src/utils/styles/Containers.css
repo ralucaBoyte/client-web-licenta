@@ -7,10 +7,11 @@
 /*    margin-right: auto;*/
 /*}*/
 
-#id1 {
-    margin-top: 30px;
+.subjectActivity {
+    margin-top: 20px;
     display: flex;
     flex-direction: row;
+    margin-bottom: 50px;
 }
 
 #id2{
@@ -20,7 +21,60 @@
 }
 
 #qrGenerator{
-    margin-left: 50px;
+    margin-left: 200px;
     display: flex;
     flex-direction: column;
+}
+
+.subjectStudentContainer{
+    display: block;
+    flex-direction: row;
+/*margin-bottom: ;*/
+
+}
+
+.subjectAttendanceDiv{
+    margin-right: 100px;
+    max-width: 100%;
+    display: flex;
+}
+
+.svtDiv{
+    display: block;
+}
+
+.svtDiv2{
+    margin-top: 10px;
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.attendanceByStudent{
+    display: inline-flex;
+    height: 100%;
+    align-items: center;
+}
+
+.info-attendance-div{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    height:150px;
+    width: 900px;
+
+}
+
+.add-code-form{
+    width: 800px;
+}
+
+.info-text-div{
+    display:flex;
+    height: 100%;
+    text-align-all: center;
+    font-style: oblique;
+    justify-content: center;
+    align-items: center;
+    background-color:#b3ccff;
 }

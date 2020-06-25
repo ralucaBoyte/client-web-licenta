@@ -8,6 +8,10 @@
     display: flex;
 }
 
+#gradeTableId{
+    /*max-width: 70%;*/
+}
+
 .tableHead{
     background: var(--dark-color);
     background-color: var(--dark-color);

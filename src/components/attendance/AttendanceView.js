@@ -1,7 +1,7 @@
-import React, {Fragment, useRef, useState} from "react";
-import QRCode_Generator from "../dashboard/QRCode_Generator";
+import React, { useRef, useState } from "react";
+import CodeGenerator from "./CodeGenerator";
 import SubjectsTable from "./SubjectsTable";
-import {getQRCode} from "../../store/attendance/qrCodeActions";
+import {getCode} from "../../store/attendance/attendanceActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import ActivityTypes from "./ActivityTypes";
@@ -16,7 +16,7 @@ import styles from '../../utils/styles/MyStyles.css';
 import { useSelector } from "react-redux";
 import NotFound from "../layout/NotFound";
 
-const AttendanceGenerator = ({subjects,attendance,getQRCode}) => {
+const AttendanceView = ({subjects,attendance,getCode}) => {
 
     function renderTooltip(subject,activityType) {
         return (
@@ -37,22 +37,22 @@ const AttendanceGenerator = ({subjects,attendance,getQRCode}) => {
 
     const permissionForTeacher = (
         <Container id='containerAttendance'>
-            <div id='id1'>
+            <div className='subjectActivity'>
                 <SubjectsTable />
                 <ActivityTypes/>
             </div>
             <div id='id2'>
                 <AttendanceManually/>
                 <div id='qrGenerator'>
-                    <QRCode_Generator/>
+                    <CodeGenerator/>
                     <OverlayTrigger
 
                         placement="right"
                         delay={{ show: 250, hide: 400 }}
                         overlay={renderTooltip(subjects.currentSubject,attendance.activity_id)}
                     >
-                        <button ref={target} className='btn btn-primary' onClick={() => {getQRCode(attendance.activity_id,subjects.currentSubject); setShow(!show);}}>
-                            <i className='fas fa-user-minus' /> Generate qr code
+                        <button ref={target} className='btn btn-primary' onClick={() => {getCode(attendance.activity_id,subjects.currentSubject); setShow(!show);}}>
+                            <i className='fas fa-user-minus' /> Generare cod prezență
                         </button>
                     </OverlayTrigger>
                 </div>
@@ -66,10 +66,10 @@ const AttendanceGenerator = ({subjects,attendance,getQRCode}) => {
        </div>
     );
 };
-AttendanceGenerator.propTypes = {
+AttendanceView.propTypes = {
     attendance: PropTypes.element.isRequired,
     subjects: PropTypes.element.isRequired,
-    getQRCode: PropTypes.func.isRequired,
+    getCode: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = state => ({
@@ -78,4 +78,4 @@ const mapStateToProps = state => ({
     subjects: state.subjects
 });
 
-export default connect(mapStateToProps, {getQRCode})(AttendanceGenerator);
+export default connect(mapStateToProps, {getCode})(AttendanceView);

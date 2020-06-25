@@ -8,16 +8,11 @@ import { ToastContainer } from "react-toastify";
 // Redux
 import { Provider } from "react-redux";
 import store from "./store";
-import { loadUser } from "./store/auth/authActions";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 
 
 const App = () => {
-  /*useEffect(() => {
-    store.dispatch(loadUser());
-  }, []);*/
-
   return (
     <Provider store={store} class='principalProvider'>
       <Router>

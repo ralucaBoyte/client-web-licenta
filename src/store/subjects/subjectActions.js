@@ -1,6 +1,4 @@
-import {setAlert} from "../alert/alertActions";
 import axios from "axios";
-import {SHOW_QR_ATTENDANCE, SHOW_QR_ATTENDANCE_FAILED} from "../attendance/qrCodeActions";
 import {toast} from "react-toastify";
 
 export const GET_SUBJECTS_BY_TEACHER = "GET_SUBJECTS_BY_TEACHER";
@@ -35,18 +33,19 @@ export const getSubjects = () => async dispatch => {
   } catch (err) {
     const status = err.response.status;
 
-    if (status === 400 || status === 401 || status === 402) { //TODO
-      dispatch(setAlert("Please enter an username and a password", "danger"));
-      toast.error(err.response.data);
+    if (status === 400 || status === 401 || status === 402) {
+        toast.error("Va rugam sa va reautentificati");
     }
     if (status === 404) {
-        dispatch(setAlert("Cannot get subjects!", "danger"));
-      toast.error(err.response.data);
+        toast.error(err.response.data);
     }
     if (status === 405) {
-      dispatch(setAlert("The request or response is not write in a good way!", "danger"));
-      toast.error(err.response.data);
+        toast.error(err.response.data);
     }
+    if(status === 500){
+        toast.error("A intervenit o eroare de sistem.\n Nu s-a putut încărca lista disciplinelor.");
+    }
+
     dispatch({
       type: GET_SUBJECTS_BY_TEACHER_ERROR,
       payload: err
@@ -54,7 +53,6 @@ export const getSubjects = () => async dispatch => {
   }
 };
 
-//TODO: De terminat
 export const getSubjectsForStudent = () => async dispatch => {
 
   const config = {
@@ -75,17 +73,14 @@ export const getSubjectsForStudent = () => async dispatch => {
   } catch (err) {
     const status = err.response.status;
 
-    if (status === 400 || status === 401 || status === 402) { //TODO
-      dispatch(setAlert("Please enter an username and a password", "danger"));
-      toast.error(err.response.data);
+    if (status === 400 || status === 401 || status === 402) {
+        toast.error(err.response.data);
     }
     if (status === 404) {
-      dispatch(setAlert("Cannot get subjects!", "danger"));
-      toast.error(err.response.data);
+        toast.error(err.response.data);
     }
     if (status === 405) {
-      toast.error(err.response.data);
-      dispatch(setAlert("The request or response is not write in a good way!", "danger"));
+        toast.error(err.response.data);
     }
     dispatch({
       type: GET_SUBJECTS_BY_STUDENT_ERROR,
@@ -114,18 +109,15 @@ export const getActivityTypesByTeacher = () => async dispatch =>{
 
   } catch (err) {
     const status = err.response.status;
-
+    console.info(status);
     if (status === 400 || status === 401 || status === 402) {
-      dispatch(setAlert("Please enter an username and a password", "danger"));
+      toast.error("Va rugam sa va reautentificati");
     }
     if (status === 404) {
-      dispatch(setAlert("Cannot get activities!", "danger"));
-    }
-    if (status === 405) {
-      dispatch(setAlert("The request or response is not write in a good way!", "danger"));
+      toast.error("Nu exista activitati inregistrare");
     }
     if(status === 500){
-      dispatch(setAlert("Please wait! It seem to be a problem on our server :(","danger"))
+      toast.error("Vă rugăm să repetați procesul.\n A intervenit o eroare de sistem.\n Verificați dacă datele sunt corecte.");
     }
     dispatch({
       type: GET_ACTIVITIES_OF_TEACHER_ERROR,

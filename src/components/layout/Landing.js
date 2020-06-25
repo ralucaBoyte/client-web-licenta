@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 const Landing = ({ isAuthenticated }) => {
+
   if (isAuthenticated) {
     return <Redirect to="/my-profile" />;
   }
@@ -12,9 +13,9 @@ const Landing = ({ isAuthenticated }) => {
       <section className="landing">
         <div className="dark-overlay">
           <div className="landing-inner">
-            <h1 className="x-large">AMS</h1>
+            <h1 className="x-large">PSE system</h1>
             <p className="lead">
-              Welcome to our app!
+              vă urează bun venit!
             </p>
             <div className="buttons">
               <Link to="/login" className="btn btn-light">

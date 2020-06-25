@@ -1,22 +1,23 @@
 import {
-  // USER_LOADED,
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
   LOGOUT,
   SET_USERNAME,
   SET_PASSWORD,
-  SET_ROLE
+  SET_ROLE,
+  SET_GROUP
 } from "./authActions";
 
 const initialState = {
   access_token: localStorage.getItem("access_token"),
   refresh_token: localStorage.getItem("refresh_token"),
-  isAuthenticated: localStorage.getItem("isAuthenticated"),//?
+  isAuthenticated: localStorage.getItem("isAuthenticated"),
   loading: true,
   username: localStorage.getItem("username"),
   password: localStorage.getItem("password"),
-  role: localStorage.getItem("role")
+  role: localStorage.getItem("role"),
+  group: localStorage.getItem("group")
 };
 
 export default function(state = initialState, action) {
@@ -30,6 +31,8 @@ export default function(state = initialState, action) {
       localStorage.setItem("isAuthenticated", true);
       return {
         ...state,
+        access_token: payload.access_token,
+        refresh_token: payload.refresh_token,
         isAuthenticated: true,
         loading: false
       };
@@ -39,12 +42,16 @@ export default function(state = initialState, action) {
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
       localStorage.removeItem("isAuthenticated");
+      localStorage.removeItem("role");
+      localStorage.removeItem("group");
       return {
         ...state,
         access_token: null,
         refresh_token: null,
         isAuthenticated: false,
-        loading: false
+        loading: false,
+        role: null,
+        group: null
       };
     case SET_USERNAME:
       localStorage.setItem("username", payload);
@@ -63,6 +70,12 @@ export default function(state = initialState, action) {
       return{
         ...state,
         role: payload
+      };
+    case SET_GROUP:
+      localStorage.setItem("group",payload);
+      return {
+        ...state,
+        group: payload
       };
     default:
       return state;

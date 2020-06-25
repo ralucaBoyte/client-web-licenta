@@ -9,7 +9,7 @@
     color: #007bff;
 }
 
-.textProfile{
+.divProfile{
     text-transform: uppercase;
     font-size: larger;
 }
@@ -21,4 +21,21 @@
     align-items: center;
     display: block;
     padding-top: 30px;
+}
+
+.btnAddAtt{
+    border-radius: 5px;
+    border: 0;
+    width: 200px;
+    height:40px;
+    font-family: Tahoma, serif;
+    /*background: #f4f4f4;*/
+    background: var(--primary-color);
+    /*filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f4f4f4', endColorstr='#ededed', GradientType=0);*/
+    /* IE6-9 */
+    color: #fff;
+}
+
+.textProfile{
+    color: var(--dark-color);
 }

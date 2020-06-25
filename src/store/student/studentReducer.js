@@ -2,8 +2,12 @@ import {
     AUTH_ERROR,
     GET_REQUEST_FAIL,
     GET_STUDENT_BY_USERNAME,
-    GET_STUDENT_BY_USERNAME_ERROR, GET_STUDENTS_BY_SUBJECTS, GET_STUDENTS_BY_SUBJECTS_ERROR,
-    SET_CURRENT_STUDENT, SET_STUDENTS
+    GET_STUDENT_BY_USERNAME_ERROR, GET_STUDENTS_BY_GROUP,
+    GET_STUDENTS_BY_GROUP_ERROR,
+    GET_STUDENTS_BY_SUBJECTS,
+    GET_STUDENTS_BY_SUBJECTS_ERROR,
+    SET_CURRENT_STUDENT,
+    SET_STUDENTS
 } from "./studentActions";
 
 const initialState = {
@@ -11,7 +15,8 @@ const initialState = {
     loading: true,
     data: [],
     error: {},
-    visible: false
+    visible: false,
+    visibleFromGroup: false
 };
 
 export default function(state = initialState, action) {
@@ -38,6 +43,19 @@ export default function(state = initialState, action) {
                 visible: true
             };
         case GET_STUDENTS_BY_SUBJECTS_ERROR:
+            return {
+                ...state,
+                loading: false,
+                data: null
+            };
+        case GET_STUDENTS_BY_GROUP:
+            return {
+                ...state,
+                loading: false,
+                data: payload,
+                visibleFromGroup: true
+            };
+        case GET_STUDENTS_BY_GROUP_ERROR:
             return {
                 ...state,
                 loading: false,

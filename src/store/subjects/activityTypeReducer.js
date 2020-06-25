@@ -34,7 +34,7 @@ export default function(state = initialState, action) {
             return {
                 ...state,
                 error: payload
-            }
+            };
         default:
             return state;
     }
