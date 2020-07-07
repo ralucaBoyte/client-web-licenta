@@ -1,13 +1,13 @@
 import React, {  Fragment } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getQRCode } from "../../store/attendance/qrCodeActions";
+import { getQRCode, setQrVisibility } from "../../store/attendance/qrCodeActions";
 import QRCode_Generator from "./QRCode_Generator";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-const Dashboard = ({getQRCode}) => {
+const Dashboard = ({getQRCode, setQrVisibility}) => {
 
   return (
     <Fragment>
@@ -38,4 +38,4 @@ const mapStateToProps = state => ({
   attendance: state.attendance
 });
 
-export default connect(mapStateToProps, {getQRCode})(Dashboard);
+export default connect(mapStateToProps, {getQRCode, setQrVisibility})(Dashboard);

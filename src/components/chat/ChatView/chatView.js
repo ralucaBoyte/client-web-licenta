@@ -22,7 +22,7 @@ class ChatViewComponent extends React.Component {
     console.log(classes);
 
     if(this.props.chat === undefined) {
-      return(<main className={classes.content}></main>);
+      return(<main className={classes.content}/>);
     } else if(this.props.chat !== undefined) {
       return(
         <div>
@@ -40,14 +40,6 @@ class ChatViewComponent extends React.Component {
                   </div>
                   )
               })
-
-              // this.props.chat.messages.map((_msg, _index) => {
-              //   return(
-              //   <div key={_index} className={_msg.sender === this.props.user ? classes.userSent : classes.friendSent}>
-              //     {_msg.message}
-              //   </div>
-              //   )
-              // })
             }
           </main>
         </div>

@@ -1,19 +1,19 @@
-import React, { Fragment, useState } from "react";
+import React, {useEffect, useState} from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../store/auth/authActions";
-import {MDBBtn, MDBCard, MDBCardBody, MDBCardHeader, MDBCol, MDBContainer, MDBIcon, MDBInput, MDBRow} from "mdbreact";
+import {MDBBtn, MDBCard, MDBCardBody, MDBCol, MDBContainer, MDBInput, MDBRow} from "mdbreact";
 import Alert from "../layout/Alert";
 
 const Login = ({ login, isAuthenticated, role }) => {
+
   const [formData, setFormData] = useState({
     username: "",
     password: ""
   });
 
   const { username, password } = formData;
-
 
   const onChangeUsername = e => {
     setFormData({...formData, username: e.target.value});
@@ -37,34 +37,6 @@ const Login = ({ login, isAuthenticated, role }) => {
   };
 
   return (
-      // <Fragment>
-      //   <p className="lead">
-      //     <i className="fas fa-user" /> Sign Into Your Account
-      //   </p>
-      //   <form className="form" onSubmit={e => onSubmit(e)}>
-      //     <div className="form-group">
-      //       <input
-      //           type="text"
-      //           placeholder="Username"
-      //           name="username"
-      //           value={username}
-      //           onChange={e => onChange(e)}
-      //           required
-      //       />
-      //     </div>
-      //     <div className="form-group">
-      //       <input
-      //           type="password"
-      //           placeholder="Password"
-      //           name="password"
-      //           value={password}
-      //           onChange={e => onChange(e)}
-      //           required
-      //       />
-      //     </div>
-      //     <input type="submit" className="btn btn-primary" value="Login" />
-      //   </form>
-      // </Fragment>
       <MDBContainer className="container_login">
         <Alert className="alert"/>
         <MDBRow className="container_login_row">

@@ -4,7 +4,7 @@ export const SET_ALERT = "SET_ALERT";
 export const REMOVE_ALERT = "REMOVE_ALERT";
 
 
-export const setAlert = (msg, alertType, timeout = 5000) => dispatch => {
+export const setAlert = (msg, alertType, timeout = 3000) => dispatch => {
   const id = uuidv4();
   dispatch({
     type: SET_ALERT,

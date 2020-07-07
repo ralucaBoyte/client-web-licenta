@@ -41,7 +41,7 @@ const RemainingTime = ({setRemainingTime}) => {
     return (
         <div style={time_style}>
             <FormControl className={classes.formControl}>
-                <InputLabel id="demo-controlled-open-select-label">Attendance valability</InputLabel>
+                <InputLabel id="demo-controlled-open-select-label">QR expiration</InputLabel>
                 <Select
                     labelId="demo-controlled-open-select-label"
                     id="demo-controlled-open-select"

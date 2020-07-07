@@ -1,22 +1,24 @@
-import React, {  Fragment } from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { getQRCode } from "../../store/attendance/qrCodeActions";
-import QRCode_Generator from "./QRCode_Generator";
+
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
-import SubjectsTable from "../elements/SubjectsTable";
+
 import ActivityTypes from "../elements/ActivityTypes";
-import RemainingTime from "../elements/RemainingTime";
 import Week from "../elements/Week";
 import AttendancesTable from "../elements/AttendancesTable";
 import Subjects from "../elements/Subjects";
 import {getAttendances} from "../../store/attendance/attendanceViewActions";
+import {getLatestAttendanceInfo} from "../../store/reviews/reviewsActions";
 
-const AttendancesPage = ({getAttendances, attendances_view, attendance}) => {
+const AttendancesPage = ({getAttendances, getLatestAttendanceInfo, attendances_view, attendance}) => {
 
+    useEffect(() => {
+        getLatestAttendanceInfo()
+    }, []);
     return (
         <MDBContainer className="container_attendance">
             <MDBRow>
@@ -47,4 +49,4 @@ const mapStateToProps = state => ({
     attendance: state.attendance
 });
 
-export default connect(mapStateToProps, {getAttendances})(AttendancesPage);
+export default connect(mapStateToProps, {getAttendances, getLatestAttendanceInfo})(AttendancesPage);

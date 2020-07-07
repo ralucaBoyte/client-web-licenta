@@ -1,99 +1,85 @@
 import React, {useState} from "react";
-//import DataTable from "react-data-table-component";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {getSubjects} from "../../store/subjects/subjectActions";
 import PropTypes from "prop-types";
-import { withStyles, makeStyles } from '@material-ui/core/styles';
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+import { MDBDataTable, MDBBtn, MDBInput } from "mdbreact";
 import MaterialTable from 'material-table'
 import {setCurrentSubject} from "../../store/attendance/qrCodeActions";
 import Spinner from "../layout/Spinner";
+import {deleteAttendances, getAttendances} from "../../store/attendance/attendanceViewActions";
+import DeleteIcon from '@material-ui/icons/Delete';
+import TableBody from "@material-ui/core/TableBody";
+import TableRow from "@material-ui/core/TableRow";
+import TableCell from "@material-ui/core/TableCell";
+import IconButton from "@material-ui/core/IconButton";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import Paper from '@material-ui/core/Paper';
+import Table from "@material-ui/core/Table";
+import { makeStyles } from '@material-ui/core/styles';
+import Button from "@material-ui/core/Button";
+const AttendancesTable = ({attendances, attendanceView, attendanceInfo, loadingAttendances}) => {
 
-const columns = [
-    {
-        name: 'Id',
-        selector: 'subject_id',
-        sortable: true,
-    },
-    {
-        name: 'Credits',
-        selector: 'credits',
-        sortable: true,
-    },
-    {
-        name: 'Name',
-        selector: 'name',
-        sortable: true,
-    },
-    {
-        name: 'Year',
-        selector: 'year',
-        sortable: true,
-    },
-    {
-        selector: "options",
-        sortable: false,
-        center: true
-    }
-];
-
-const StyledTableCell = withStyles((theme) => ({
-    head: {
-        backgroundColor: theme.palette.common.black,
-        color: theme.palette.common.white,
-    },
-    body: {
-        fontSize: 14,
-    },
-}))(TableCell);
-
-const StyledTableRow = withStyles((theme) => ({
-    root: {
-        '&:nth-of-type(odd)': {
-            backgroundColor: theme.palette.background.default,
+    const dispatch = useDispatch();
+    const useStyles = makeStyles({
+        table: {
+            minWidth: 650,
         },
-    },
-}))(TableRow);
+    });
 
-const useStyles = makeStyles({
-    container: {
-        width: '60%'
-    },
-    table: {
-        //minWidth: 500,
-        //width: '60%'
-    },
-    row: {
-        "&:hover": {
-            background: "red"
-        }
-    }
-});
+    const classes = useStyles();
+    let btnTapped  = (event) => {
+        console.log(event);
+        dispatch(deleteAttendances(event, attendanceView.subject_id, attendanceView.activity_id, attendanceView.week));
+        dispatch(getAttendances(attendanceView.subject_id, attendanceView.activity_id, attendanceView.week));
+    };
 
-const AttendancesTable = ({attendances, loadingAttendances}) => {
+  // const [data, setData] = useState(attendances);
+            return (attendances ? <TableContainer>
+                <Table className={classes.table} aria-label="simple table">
+                    <TableHead>
+                        <TableRow>
+                            <TableCell>Student name</TableCell>
+                            <TableCell>Subject</TableCell>
+                            <TableCell>Activity Type</TableCell>
+                            <TableCell>Delete</TableCell>
+                        </TableRow>
+                    </TableHead>
+                <TableBody>
 
+            {attendances.map(attendance => (
+                    <TableRow key={attendance.student_id}>
+                        <TableCell>{attendance.student_id}</TableCell>
+                        <TableCell>{attendance.name}</TableCell>
+                        <TableCell>{attendance.type}</TableCell>
+                        <TableCell>
+                            <IconButton
+                                onClick={() => btnTapped(attendance.student_id)}>
+                                <DeleteIcon color="secondary" />
+                            </IconButton>
+                        </TableCell>
+                    </TableRow>
+                )
+                )
+            }
+                </TableBody>
+                </Table>
+            </TableContainer> :  (
+                <TableContainer component={Paper}>
+                    <Table className={classes.table} aria-label="simple table">
+                        <TableHead>
+                            <TableRow>
+                                <TableCell>Student name</TableCell>
+                                <TableCell>Subject</TableCell>
+                                <TableCell>Activity Type</TableCell>
+                                <TableCell>Delete</TableCell>
+                            </TableRow>
+                        </TableHead>
+                    </Table>
+                </TableContainer>
+                )
 
-    return loadingAttendances ? (
-        <Spinner/>
-    ) : (
-
-        <MaterialTable
-            title="Present students"
-            columns={[
-                { title: 'Student', field: 'student_id' },
-                { title: 'Course', field: 'name' },
-                { title: 'Type', field: 'type'}
-
-            ]}
-            data={attendances}
-        />
-    );
+    )
 };
 AttendancesTable.propTypes = {
     loadingAttendances: PropTypes.bool,
@@ -102,7 +88,9 @@ AttendancesTable.propTypes = {
 
 const mapStateToProps = state => ({
     attendances: state.attendances_view.attendances,
-    loadingAttendances: state.attendances_view.loadingAttendances
+    attendanceView: state.attendances_view,
+    loadingAttendances: state.attendances_view.loadingAttendances,
+    attendanceInfo: state.attendances_view
 });
 
 export default connect(

@@ -4,11 +4,11 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-//import Button from '@material-ui/core/Button';
+
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import {setWeek} from "../../store/attendance/qrCodeActions";
-import Spinner from "../layout/Spinner";
+
 
 const weeks = [
     1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14

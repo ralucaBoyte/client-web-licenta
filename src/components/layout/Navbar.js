@@ -14,19 +14,19 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
             <Link to="/view"><i className="fas fa-book"/> <span
                 className="clearfix d-none d-sm-inline-block">View attendances</span></Link>
         </li>
-      <li class="nav-item">
+      <li className="nav-item">
         <Link to="/attendance"><i className="fas fa-pen-fancy"/> <span
             className="clearfix d-none d-sm-inline-block">Attendance</span></Link>
       </li>
-    <li class="nav-item">
+    <li className="nav-item">
         <Link to="/reviews" ><i className="fas fa-comments"/> <span
             className="clearfix d-none d-sm-inline-block">My reviews</span></Link>
     </li>
-    <li class="nav-item">
+    <li className="nav-item">
         <Link to="/messages"><i className="fas fa-envelope"/> <span
             className="clearfix d-none d-sm-inline-block">Messages</span></Link>
     </li>
-      <li class="nav-item">
+      <li className="nav-item">
         <a onClick={logout} href="/">
           <i className="fas fa-sign-out-alt" />{" "}
           <span className="hide-sm">Logout</span>
@@ -37,13 +37,13 @@ const Navbar = ({ auth: { isAuthenticated, loading }, logout }) => {
 
   const guestLinks = (
     <ul>
-      <li class="nav-item">
+      <li className="nav-item">
         <Link to="/login">Login</Link>
       </li>
     </ul>
   );
   return (
-    <nav class="navbar fixed-top navbar-expand-lg navbar-dark indigo">
+    <nav className="navbar fixed-top navbar-expand-lg navbar-dark indigo">
         <a className="navbar-brand" href="#"><strong>Attender</strong></a>
       {
         <Fragment>{isAuthenticated ? authLinks : guestLinks}</Fragment>

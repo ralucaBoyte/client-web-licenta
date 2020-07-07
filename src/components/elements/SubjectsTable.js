@@ -85,7 +85,7 @@ const SubjectsTable = ({getSubjects, subjects, loading, setCurrentSubject}) => {
 
     const selectTableRow = value => {
       setSelectedRow(value);
-      setCurrentSubject(value.id);
+      setCurrentSubject(value);
     };
 
     return (

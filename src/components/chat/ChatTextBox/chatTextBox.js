@@ -20,13 +20,13 @@ class ChatTextBoxComponent extends React.Component {
     return(
       <div className={classes.chatTextBoxContainer}>
         <TextField
-          placeholder='Type your message..' 
+          placeholder='Type your message..'
           onKeyUp={(e) => this.userTyping(e)}
-          id='chattextbox' 
+          id='chattextbox'
           className={classes.chatTextBox}
           onFocus={this.userClickedInput}>
         </TextField>
-        <Send onClick={this.submitMessage} className={classes.sendBtn}></Send>
+        <Send onClick={this.submitMessage} className={classes.sendBtn}/>
       </div>
     );
   }

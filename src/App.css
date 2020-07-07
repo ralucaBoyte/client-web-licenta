@@ -84,7 +84,21 @@ img {
 }
 
 .container_reviews{
-  max-width: 1100px;
+  width: 90%;
+  align-content: center;
+  align-items: center;
+}
+
+.container_reviews_feedback{
+  width: 80%;
+  align-content: center;
+  align-items: center;
+}
+
+.container_reviews_grades{
+  display: flex;
+  width: 100%;
+  margin-right: 0;
 }
 
 .container_attendance {
@@ -256,6 +270,14 @@ img {
   background: #fff;
   color: #333;
   border: #ccc solid 1px;
+}
+
+#combo-box-demo{
+  width: 70%;
+}
+
+#butoane-qr{
+  width: 90%;
 }
 
 .btn:hover {

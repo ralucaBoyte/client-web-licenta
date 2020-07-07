@@ -34,10 +34,6 @@ class ChatListComponent extends React.Component {
             <List>
               {
                   Object.keys(this.props.chats).map((el, chats) => {
-                   //    this.props.chats[el].map((_chat, _index) => {
-                   //  console.log(_index);
-                   // console.log(_chat);
-                   // console.log(_chat.content);
                       console.log(chats);
                   return (
                     <div key={el}>
@@ -68,7 +64,7 @@ class ChatListComponent extends React.Component {
                           }/>
                           {
                               this.props.chats[el].receiverHasRead === false && !this.userIsSender(this.props.chats[el]) ?
-                            <ListItemIcon><NotificationImportant className={classes.unreadMessage}></NotificationImportant></ListItemIcon> :
+                            <ListItemIcon><NotificationImportant className={classes.unreadMessage}/></ListItemIcon> :
                             null
                           }
                       </ListItem>

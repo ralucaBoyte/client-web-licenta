@@ -1,6 +1,7 @@
 import axios from "axios";
 import { setAlert } from "../alert/alertActions";
 import * as qs from "qs";
+import {getLatestAttendanceInfo} from "../reviews/reviewsActions";
 //export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
@@ -41,14 +42,13 @@ export const login = (username, password) => async dispatch => {
     dispatch({
       type:SAVE_USER,
       payload: username
-    })
+    });
 
   } catch (err) {
-    console.log(err.response.data);
-    const status = err.response.status;
-    console.log(status);
 
-    dispatch(setAlert(err.response.data, "danger"));
+    console.log(err.response);
+
+    dispatch(setAlert(err.response.data.message, "danger"));
 
     dispatch({
       type: LOGIN_FAIL,
@@ -56,6 +56,8 @@ export const login = (username, password) => async dispatch => {
     });
   }
 };
+
+
 
 // Logout / Clear Profile
 export const logout = () => dispatch => {

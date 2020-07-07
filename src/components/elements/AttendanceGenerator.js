@@ -1,39 +1,56 @@
-import React, {Fragment} from "react";
+import React, { useEffect } from "react";
 import QRCode_Generator from "../dashboard/QRCode_Generator";
 import SubjectsTable from "./SubjectsTable";
-import {getQRCode} from "../../store/attendance/qrCodeActions";
+import {getQRCode, setQrVisibility, getStudents, setModalVisibility} from "../../store/attendance/qrCodeActions";
 import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import ActivityTypes from "./ActivityTypes";
-//import { withStyles, makeStyles } from '@material-ui/core/styles';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import "bootstrap-css-only/css/bootstrap.min.css";
 import "mdbreact/dist/css/mdb.css";
 import { MDBContainer, MDBRow, MDBCol } from "mdbreact";
 import RemainingTime from "./RemainingTime";
 import Week from "./Week";
+import Autocomplete from '@material-ui/lab/Autocomplete';
+import TextField from "@material-ui/core/TextField";
+import {setCurrentStudent, markAttendance} from "../../store/attendance/qrCodeActions";
+import {getLatestAttendanceInfo} from "../../store/reviews/reviewsActions";
+import CountdownElement from "./CountdownElement";
 
-// const activityTypes = [
-//     { key: 1, text: 'Choice 1', value: 1 },
-//     { key: 2, text: 'Choice 2', value: 2 },
-//     { key: 3, text: 'Choice 3', value: 3 },
-// ];
 
+const AttendanceGenerator = ({attendance,currentAttendanceId, getLatestAttendanceInfo, getQRCode, setQrVisibility, getStudents, setCurrentStudent, markAttendance, setModalVisibility}) => {
 
-const AttendanceGenerator = ({attendance, getQRCode}) => {
+    useEffect(() => {
+        getStudents();
+    }, []);
 
-     return (
-
+    useEffect(() => {
+        getLatestAttendanceInfo();
+    }, []);
+    return (
             <MDBContainer className="container_attendance">
                 <MDBRow>
                     <MDBCol md="6">
                         <SubjectsTable/>
                     </MDBCol>
-                    <MDBCol md="2">
+                    <MDBCol md="2" style={{marginTop: '0.2rem'}}>
+
+                        <Autocomplete
+                            id="combo-box-demo"
+                            options={attendance.students}
+                            getOptionLabel={(option) => option.username}
+                            onChange={(event, newValue) => {
+                                setCurrentStudent(newValue);
+                            }}
+                            renderInput={(params) => <TextField {...params} label="Choose student" variant="outlined" />}
+                        />
+                        <button id="butoane-qr"  className="btn purple-gradient" onClick={() => markAttendance(currentAttendanceId, attendance.currentStudent.username)}>Mark attnd.</button>
+
                         <ActivityTypes/>
                         <RemainingTime/>
                         <Week/>
-                        <button className="btn peach-gradient" onClick={() => getQRCode(attendance.subject_id, attendance.activity_id, attendance.week, attendance.remaining_time)}>Generate QR code</button>
+                        <button id="butoane-qr" className="btn peach-gradient" onClick={() => getQRCode(attendance.subject_id, attendance.activity_id, attendance.week, attendance.remaining_time)}>Generate QR</button>
+                        <button id="butoane-qr" className="btn peach-gradient" onClick={() => setQrVisibility()}>Clear QR</button>
                     </MDBCol>
                     <MDBCol md="4">
                         <QRCode_Generator/>
@@ -54,6 +71,7 @@ AttendanceGenerator.propTypes = {
 const mapStateToProps = state => ({
     attendance: state.attendance,
     auth: state.auth,
+    currentAttendanceId: state.reviews.currentAttendanceId
 });
 
-export default connect(mapStateToProps, {getQRCode})(AttendanceGenerator);
+export default connect(mapStateToProps, {getQRCode, setQrVisibility, getStudents, setCurrentStudent, markAttendance, setModalVisibility, getLatestAttendanceInfo})(AttendanceGenerator);

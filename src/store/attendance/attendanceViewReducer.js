@@ -3,7 +3,8 @@ import {
     SHOW_ALL_ATTENDANCES_FAILED,
     SET_SUBJECT,
     SET_WEEK,
-    SET_ACTIVITY
+    SET_ACTIVITY,
+
 } from "./attendanceViewActions";
 
 const initialState = {
@@ -11,7 +12,8 @@ const initialState = {
     week: 1,
     activity_id: 1,
     attendances: [],
-    loadingAttendances: true
+    loadingAttendances: true,
+    visible: false
 };
 
 export default function(state = initialState, action) {
@@ -26,6 +28,7 @@ export default function(state = initialState, action) {
             };
 
         case SHOW_ALL_ATTENDANCES_FAILED:
+
         case SET_SUBJECT:
             return{
                 ...state,

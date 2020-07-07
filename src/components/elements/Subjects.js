@@ -30,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-const Subjects = ({getSubjects, subjects, loading, setCurrentSubject}) => {
+const Subjects = ({subjects, loading, setCurrentSubject}) => {
     const classes = useStyles();
     const [selectedRow, setSelectedRow] = useState(1);
     const [subjectId, setSubjectId] = useState(1);
@@ -66,7 +66,7 @@ const activity_style = {
     display: 'flex'
 };
 Subjects.propTypes = {
-    getSubjects: PropTypes.func.isRequired,
+    //getSubjects: PropTypes.func.isRequired,
     setCurrentSubject: PropTypes.func.isRequired,
     loading: PropTypes.bool,
     subjects: PropTypes.array

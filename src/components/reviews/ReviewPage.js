@@ -1,18 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
-import { MDBCarousel, MDBCarouselCaption, MDBCarouselInner, MDBCarouselItem, MDBView, MDBMask, MDBContainer } from
+import {MDBCarousel, MDBCarouselCaption, MDBCarouselInner, MDBCarouselItem, MDBView, MDBMask, MDBContainer, MDBCol} from
         "mdbreact";
 import {getReviews} from "../../store/reviews/reviewsActions";
+import ReviewFromStudents from "../dashboard/ReviewFromStudents";
 const ReviewPage = ({reviews, auth, getReviews, loadingReviews}) => {
 
-    if(loadingReviews){
+    // if(loadingReviews){
+    //     getReviews();
+    // }
+    useEffect(() => {
         getReviews();
-    }
+    }, []);
     console.log(reviews);
 
     return (
         <MDBContainer>
+            <MDBCol md="5">
             <MDBCarousel
                 activeItem={1}
                 length={reviews.length}
@@ -39,6 +44,10 @@ const ReviewPage = ({reviews, auth, getReviews, loadingReviews}) => {
                         ))}
                 </MDBCarouselInner>
             </MDBCarousel>
+            </MDBCol>
+            <MDBCol md="7">
+                <ReviewFromStudents/>
+            </MDBCol>
         </MDBContainer>
     );
 };

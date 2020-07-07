@@ -21,7 +21,6 @@ export const getSubjects = () => async dispatch => {
 
   try {
       const subjects = await axios.get("attendance/subjects", config);
-      console.log(subjects.data);
     dispatch({
       type: GET_SUBJECTS_BY_TEACHER,
       payload: subjects.data
@@ -49,7 +48,7 @@ export const getActivities = () => async dispatch => {
 
     try {
         const activities = await axios.get("attendance/activities", config);
-        console.log(activities);
+        //console.log(activities);
 
         dispatch({
             type: GET_ACTIVITIES,

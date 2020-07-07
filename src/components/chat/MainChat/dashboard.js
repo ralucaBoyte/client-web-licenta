@@ -6,18 +6,16 @@ import ChatTextBoxComponent from '../ChatTextBox/chatTextBox';
 import styles from './styles';
 import { Button, withStyles } from '@material-ui/core';
 //const firebase = require("firebase");
-// import SockJS from "sockjs-client";
-// import PropTypes from "prop-types";
-// import { connect } from "react-redux";
-// import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
+import SockJS from "sockjs-client";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
+import mapStateToProps from "react-redux/lib/connect/mapStateToProps";
 import axios from "axios";
 
 
 let stompClient = null;
 let api_ws = `http://localhost:8765/chat`;
 class DashboardComponent extends Component {
-
-
 
   constructor() {
     super();
@@ -28,6 +26,7 @@ class DashboardComponent extends Component {
       friends: [],
       chats: [],
       username: localStorage.getItem("username"),
+      newAddedConversation: null
     };
 
     this.connect();
@@ -105,25 +104,74 @@ class DashboardComponent extends Component {
     }
   };
 
+
+  sendNewChatMessage = async (receiver, content, conversationId) => {
+    if (stompClient) {
+      let chatMessage = {
+        sender: this.state.username,
+        receiver: receiver,
+        content: content,
+        conversationId: conversationId
+      };
+      // send public message
+      stompClient.send("/app/sendPrivateMessage", {}, JSON.stringify(chatMessage));
+    }
+    const config = {
+      headers: {
+        "content-type": "application/json"
+      }
+    };
+
+
+    //GET ALL MESSAGES
+    let user = localStorage.getItem("username");
+    const data = JSON.stringify({
+      username: user,
+    });
+    try {
+      const url = "http://localhost:8765/chat/messages";
+      let res = await axios.post(url, data, config);
+
+      console.log(res.data);
+      console.log(res.data.length);
+      this.setState({
+        chats:  res.data,
+        friends: res.data,
+        curTime: 'io',
+        selectedChat: res.data.length-1
+      });
+
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   onMessageReceived = (payload) => {
 
     console.log("I received this upon subscribe to the ws endpoint");
     console.log(payload);
     let message = JSON.parse(payload.body);
-    console.log(message.receiver);
-    console.log(message.sender);
-    console.log(message.content);
-    console.log(message.conversationId);
+    console.log(message);
 
     let new_chats = this.state.chats;
-
-    new_chats[message.conversationId].push(message);
+    console.log(new_chats);
+    if (typeof new_chats[message.conversationId] == 'undefined'){
+      console.log("is undefined");
+      new_chats[message.conversationId] = message;
+      console.log(new_chats);
+    }
+    else {
+      console.log("is NOT undefined");
+      new_chats[message.conversationId].push(message);
+    }
     console.log("new chats");
     console.log(new_chats);
 
     this.setState({
-      chats: new_chats
-    })
+      chats: new_chats,
+      selectedChat: message.conversationId
+    });
+
   };
 
   onError = (error) => {
@@ -152,22 +200,19 @@ class DashboardComponent extends Component {
             </ChatViewComponent>
           }
           {
-            this.state.selectedChat !== null && !this.state.newChatFormVisible ? <ChatTextBoxComponent userClickedInputFn={this.messageRead} submitMessageFn={this.submitMessage}></ChatTextBoxComponent> : null
+            this.state.selectedChat !== null && !this.state.newChatFormVisible ? <ChatTextBoxComponent userClickedInputFn={this.messageRead} submitMessageFn={this.submitMessage}/> : null
           }
           {
-            this.state.newChatFormVisible ? <NewChatComponent goToChatFn={this.goToChat} newChatSubmitFn={this.newChatSubmit}></NewChatComponent> : null
+            this.state.newChatFormVisible ? <NewChatComponent goToChatFn={this.goToChat} newChatSubmitFn={this.newChatSubmit}/> : null
           }
-          
+
         </div>
       );
   }
 
-  signOut = () => {
-  };
-
   submitMessage = (msg) => {
     console.log(this.state.selectedChat);
-
+    console.log(this.state.chats);
     let message = this.state.chats[this.state.selectedChat][0];
     let receiver = (message.sender !== this.state.username) ? message.sender : message.receiver;
 
@@ -195,76 +240,32 @@ class DashboardComponent extends Component {
     })
   };
 
-
-  // Always in alphabetical order:
-  // 'user1:user2'
-  buildDocKey = (friend) => [this.state.email, friend].sort().join(':');
-
   newChatBtnClicked = () => this.setState({ newChatFormVisible: true, selectedChat: null });
 
   newChatSubmit = async (chatObj) => {
-    this.sendMessage(this.state.sender, this.state.message);
-    //const docKey = this.buildDocKey(chatObj.sendTo);
+    console.log(this.state.username);
+    this.sendNewChatMessage(chatObj.receiver, chatObj.message, chatObj.newAddedConversation);
     this.setState({ newChatFormVisible: false });
-    this.selectChat(this.state.chats.length - 1);
+    this.setState({selectedChat:  this.state.chats.length - 1});
+    //this.selectChat(this.state.chats.length - 1);
   };
 
   selectChat = async (chatIndex) => {
     await this.setState({ selectedChat: chatIndex, newChatFormVisible: false });
-    this.messageRead();
+    //this.messageRead();
   };
 
   goToChat = async (docKey, msg) => {
     console.log("GO TO CHAT++++++++++=");
     console.log(this.state.chats);
-    //const usersInChat = this.state.friends;
-    //const chat = this.state.chats.find(_chat => usersInChat.every(_user => _chat.users.includes(_user)));
-    //this.setState({ newChatFormVisible: false });
-   // await this.selectChat(this.state.chats.indexOf(chat));
     this.submitMessage(msg);
   };
 
-  // Chat index could be different than the one we are currently on in the case
-  // that we are calling this function from within a loop such as the chatList.
-  // So we will set a default value and can overwrite it when necessary.
   messageRead = () => {
-    //const chatIndex = this.state.selectedChat;
-    //const docKey = this.buildDocKey(this.state.chats[chatIndex].users.filter(_usr => _usr !== this.state.email)[0]);
-    //if(this.clickedMessageWhereNotSender(chatIndex)) {
-      /*firebase
-        .firestore()
-        .collection('chats')
-        .doc(docKey)
-        .update({ receiverHasRead: true });*/
-    //} else {
-    //  console.log('Clicked message where the user was the sender');
-   // }
   };
 
   clickedMessageWhereNotSender = (chatIndex) => this.state.chats[chatIndex].messages[this.state.chats[chatIndex].messages.length - 1].sender !== this.state.email;
 
-
-
-  //componentWillMount = () => {
-      /*firebase.auth().onAuthStateChanged(async _usr => {
-        if(!_usr)
-          this.props.history.push('/login');
-        else {
-          await firebase
-            .firestore()
-            .collection('chats')
-            .where('users', 'array-contains', _usr.email)
-            .onSnapshot(async res => {
-              const chats = res.docs.map(_doc => _doc.data());
-              await this.setState({
-                email: _usr.email,
-                chats: chats,
-                friends: []
-              });
-            })
-        }
-    });*/
-  //}
 }
 
 export default withStyles(styles)(DashboardComponent);
